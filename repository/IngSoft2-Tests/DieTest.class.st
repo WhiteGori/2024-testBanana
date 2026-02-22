@@ -1,10 +1,11 @@
 Class {
-	#name : #DieTest,
-	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests'
+	#name : 'DieTest',
+	#superclass : 'TestCase',
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 DieTest >> should: anErrorBlock raise: anError withMessage: errorMessage [ 
 
 	
@@ -17,13 +18,13 @@ self
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 DieTest >> testDieCannotHaveLessThanThreeFaces [ 
 
 self should: [Die of: 1] raise: Error  withMessage: 'Faces should be more than 2'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 DieTest >> testDieThrowBetweenOneAndAmountOfFaces [
 
 | aDie |

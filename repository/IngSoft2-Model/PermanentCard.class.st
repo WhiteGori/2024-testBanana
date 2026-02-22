@@ -21,17 +21,18 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #PermanentCard,
-	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#name : 'PermanentCard',
+	#superclass : 'Object',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #action }
+{ #category : 'action' }
 PermanentCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	self subclassResponsibility 
 ]
 
-{ #category : #validation }
+{ #category : 'validation' }
 PermanentCard >> validateIfCardCanBePlayedBy: aSpaceship in: aGame [
 
 	aSpaceship = aGame nextSpaceshipToPlay ifFalse: [

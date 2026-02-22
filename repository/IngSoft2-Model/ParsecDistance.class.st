@@ -1,24 +1,25 @@
 Class {
-	#name : #ParsecDistance,
-	#superclass : #Object,
+	#name : 'ParsecDistance',
+	#superclass : 'Object',
 	#instVars : [
 		'travelDistance'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ParsecDistance class >> of: aDistance [
 
 	^ self new initializeOf: aDistance
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 ParsecDistance >> inParsecs [
 ^travelDistance //1 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ParsecDistance >> initializeOf: aDistance [
 
 travelDistance := aDistance.

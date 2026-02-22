@@ -21,12 +21,13 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Turn2RechargeState,
-	#superclass : #NoPenaltyState,
-	#category : #'IngSoft2-Model'
+	#name : 'Turn2RechargeState',
+	#superclass : 'NoPenaltyState',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #action }
+{ #category : 'action' }
 Turn2RechargeState >> playIn: aGame [
 	
 	|aSpaceship|

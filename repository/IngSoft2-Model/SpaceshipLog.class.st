@@ -27,8 +27,8 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #SpaceshipLog,
-	#superclass : #Object,
+	#name : 'SpaceshipLog',
+	#superclass : 'Object',
 	#instVars : [
 		'spaceship',
 		'shields',
@@ -36,29 +36,30 @@ Class {
 		'state',
 		'cards'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 SpaceshipLog class >> for: aSpaceship withDeck: someCards [
 
 	^self new initializeFor: aSpaceship withDeck: someCards
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 SpaceshipLog class >> randomCardsfor: aSpaceship [
 
 	^self new initializeRandomCardsFor: aSpaceship
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 SpaceshipLog >> = anotherSpaceship [
 
 	
 	^position = anotherSpaceship position 
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 SpaceshipLog >> >= anotherSpaceship [
 
 	self laps = anotherSpaceship laps
@@ -69,13 +70,13 @@ SpaceshipLog >> >= anotherSpaceship [
 		
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 SpaceshipLog >> addCard: aCard [
 
 cards add: aCard .
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 SpaceshipLog >> addRandomCard [
 
 	| cardTypes randomCard |
@@ -89,36 +90,36 @@ SpaceshipLog >> addRandomCard [
 		cards add: randomCard new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> cards [
 ^cards 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> changePositionTo: newPosition [
 
 position := newPosition .
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> changeStateTo: aState [ 
 
 state := aState 
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 SpaceshipLog >> decreaseShieldsByOne [ 
 	shields := shields -1 max: 0.
 	shields = 0 ifTrue: [ state := Turn1RechargeState new  ].
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 SpaceshipLog >> hash [ 
 
 ^shields hash + position hash + spaceship hash 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SpaceshipLog >> initializeFor: aSpaceship withDeck: someCards [
 
 	spaceship := aSpaceship .
@@ -127,7 +128,7 @@ SpaceshipLog >> initializeFor: aSpaceship withDeck: someCards [
 	cards:= OrderedCollection withAll:  someCards.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SpaceshipLog >> initializeRandomCardsFor: aSpaceship [
 
 	spaceship := aSpaceship .
@@ -137,62 +138,62 @@ SpaceshipLog >> initializeRandomCardsFor: aSpaceship [
 	2 timesRepeat: [ self addRandomCard].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> laps [
 ^position laps  
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> move: someSquares [
 
 position move: someSquares 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> moveTo: aPosition [
 
 	position moveTo:  aPosition 
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 SpaceshipLog >> playIn: aGame [
 
 	state playIn: aGame 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> position [
 ^position square
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 SpaceshipLog >> rechargeShields [
 
 	shields := 3
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 SpaceshipLog >> removeCardFromHand: aCard [
 
  cards remove: (aCard class)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> shields [
 ^shields 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> spaceship [
 ^spaceship 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpaceshipLog >> state [ 
 ^state 
 ]
 
-{ #category : #validation }
+{ #category : 'validation' }
 SpaceshipLog >> validateThatSpaceshipHasCard: aCard [
 	
 	(cards includes: aCard class) ifFalse: [

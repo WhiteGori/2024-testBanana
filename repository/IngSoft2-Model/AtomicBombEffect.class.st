@@ -21,41 +21,42 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #AtomicBombEffect,
-	#superclass : #Object,
+	#name : 'AtomicBombEffect',
+	#superclass : 'Object',
 	#instVars : [
 		'myPosition'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 AtomicBombEffect class >> isIn: aPosition [
 
  ^self new initializeIsIn: aPosition 
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 AtomicBombEffect >> applyIn: aGame for: aSpaceship [ 
 	aGame detonateAtomicBomb .
 	
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 AtomicBombEffect >> initializeIsIn: aPosition [ 
 
 myPosition := aPosition.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AtomicBombEffect >> position [
 
 ^myPosition 
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 AtomicBombEffect >> setPosition: aPosition [
 myPosition := aPosition.
 ]

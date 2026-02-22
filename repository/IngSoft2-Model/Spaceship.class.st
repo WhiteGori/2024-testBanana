@@ -1,24 +1,25 @@
 Class {
-	#name : #Spaceship,
-	#superclass : #Object,
+	#name : 'Spaceship',
+	#superclass : 'Object',
 	#instVars : [
 		'myName'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #initialize }
+{ #category : 'initialize' }
 Spaceship class >> launch: aName [
 
 	^ self new initializeLaunch: aName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Spaceship >> getName [
 ^ myName.
 ]
 
-{ #category : #initialize }
+{ #category : 'initialize' }
 Spaceship >> initializeLaunch: aName [ 
 
 myName := aName.

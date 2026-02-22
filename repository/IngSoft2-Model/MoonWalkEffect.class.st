@@ -25,28 +25,29 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #MoonWalkEffect,
-	#superclass : #Object,
+	#name : 'MoonWalkEffect',
+	#superclass : 'Object',
 	#instVars : [
 		'someSquares',
 		'myPosition'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 MoonWalkEffect class >> isIn: aPosition [
 
 	^ self new initializeIsIn: aPosition  moves: aPosition atRandom
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MoonWalkEffect class >> isIn: aPosition moves: aNumberOfSquares [
 
 	^ self new initializeIsIn: aPosition moves: aNumberOfSquares
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 MoonWalkEffect >> applyIn: aGame for: aSpaceship [ 
 	
 	aGame applyMoonwalkFor: aSpaceship movingOthersBack: someSquares  .
@@ -54,13 +55,13 @@ MoonWalkEffect >> applyIn: aGame for: aSpaceship [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 MoonWalkEffect >> initializeIsIn: aSquare moves: aNumberOfSquares [ 
 	someSquares  := aNumberOfSquares .
 	myPosition := aSquare 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MoonWalkEffect >> position [
 
 ^myPosition 

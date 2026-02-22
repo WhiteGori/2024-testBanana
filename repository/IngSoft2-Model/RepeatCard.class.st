@@ -21,12 +21,13 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #RepeatCard,
-	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#name : 'RepeatCard',
+	#superclass : 'Object',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #action }
+{ #category : 'action' }
 RepeatCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	aGame repeatLastEffectFor: anotherSpaceship  
 ]

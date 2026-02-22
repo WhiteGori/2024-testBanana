@@ -21,40 +21,41 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #MysteryCardEffect,
-	#superclass : #Object,
+	#name : 'MysteryCardEffect',
+	#superclass : 'Object',
 	#instVars : [
 		'myPosition'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 MysteryCardEffect class >> isIn: aPosition [
 
  ^self new initializeIsIn: aPosition 
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 MysteryCardEffect >> applyIn: aGame for: aSpaceship [
 
 aGame addRandomCardFor: aSpaceship .
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 MysteryCardEffect >> initializeIsIn: aPosition [ 
 
 myPosition := aPosition.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MysteryCardEffect >> position [
 
 ^myPosition 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 MysteryCardEffect >> setPosition: aPosition [
 myPosition := aPosition.
 ]

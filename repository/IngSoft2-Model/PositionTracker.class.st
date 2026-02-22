@@ -26,45 +26,46 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #PositionTracker,
-	#superclass : #Object,
+	#name : 'PositionTracker',
+	#superclass : 'Object',
 	#instVars : [
 		'totalSquaresMoved',
 		'board'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 PositionTracker class >> beginIn: aBoard [
 
 	^ self new initializeBeginIn: aBoard
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 PositionTracker >> initializeBeginIn: aBoard [
 
 	totalSquaresMoved := 0.
 	board := aBoard
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PositionTracker >> laps [
 	^board lapsAfterMoving: totalSquaresMoved 
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 PositionTracker >> move: someSquares [
 
 totalSquaresMoved := totalSquaresMoved +someSquares max: 0
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 PositionTracker >> moveTo: aSquare [
  	self move: (aSquare - self square )
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 PositionTracker >> square [
 
 	^board squareNumberAfterMoving: totalSquaresMoved 

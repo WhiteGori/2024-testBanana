@@ -24,38 +24,39 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Die,
-	#superclass : #Object,
+	#name : 'Die',
+	#superclass : 'Object',
 	#instVars : [
 		'faces'
 	],
 	#classInstVars : [
 		'faces'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Die class >> of: anAmountOfFaces [
 
 	self validateNumberOf: anAmountOfFaces.
 	^ self new initializeOf: anAmountOfFaces
 ]
 
-{ #category : #validation }
+{ #category : 'validation' }
 Die class >> validateNumberOf: anAmountOfFaces [
 
 	anAmountOfFaces < 3 ifTrue: [
 		Error signal: 'Faces should be more than 2' ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 Die >> initializeOf: anAmountOfFaces [
 
 faces := anAmountOfFaces.
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 Die >> throw [
 
 	^ faces atRandom 

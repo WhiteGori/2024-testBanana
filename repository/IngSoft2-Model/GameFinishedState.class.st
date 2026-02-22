@@ -21,30 +21,31 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #GameFinishedState,
-	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#name : 'GameFinishedState',
+	#superclass : 'Object',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 GameFinishedState >> isOngoing [ 
 
 ^ false
 ]
 
-{ #category : #validation }
+{ #category : 'validation' }
 GameFinishedState >> validateStateForCards [
 
 Error signal: 'Cards cannot be played after game is over'
 ]
 
-{ #category : #analyzing }
+{ #category : 'analyzing' }
 GameFinishedState >> validateTurn [ 
 
 	Error signal: 'Game has already ended'.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GameFinishedState >> winnerOf: spaceshipsData after: someLaps [
 
 	| dataForWinner |

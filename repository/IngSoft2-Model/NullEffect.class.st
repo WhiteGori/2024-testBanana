@@ -24,38 +24,39 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #NullEffect,
-	#superclass : #Object,
+	#name : 'NullEffect',
+	#superclass : 'Object',
 	#instVars : [
 		'myPosition'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 NullEffect class >> isIn: aPosition [
 
  ^self new initializeIsIn: aPosition 
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 NullEffect >> applyIn: aGame for: aSpaceship [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NullEffect >> initializeIsIn: aPosition [ 
 
 myPosition := aPosition.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 NullEffect >> position [
 
 ^myPosition 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 NullEffect >> setPosition: aPosition [
 myPosition := aPosition.
 ]

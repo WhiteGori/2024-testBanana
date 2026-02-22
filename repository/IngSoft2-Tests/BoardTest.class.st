@@ -1,10 +1,11 @@
 Class {
-	#name : #BoardTest,
-	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests'
+	#name : 'BoardTest',
+	#superclass : 'TestCase',
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BoardTest >> createBoardOf: length distance: aDistance withEffects: someEffects wormholeBeginsAt: startPoint andEndsAt: endPoint [
 
 	| squares |
@@ -21,7 +22,7 @@ BoardTest >> createBoardOf: length distance: aDistance withEffects: someEffects 
 		  andEndsAt: endPoint
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> should: anErrorBlock raise: anError withMessage: errorMessage [
 
 self 
@@ -31,7 +32,7 @@ self
 										self assert: error messageText  equals: errorMessage  ].
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test007BoardCreatedWithTwoSquares [
 
 	| aBoard |
@@ -40,7 +41,7 @@ BoardTest >> test007BoardCreatedWithTwoSquares [
 	self assert: aBoard lengthInSquares  equals: 2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test010BoardCreatedWithNSquares [
 
 | aBoard |
@@ -49,7 +50,7 @@ aBoard := Board of: 20 wormholeBeginsAt: 1 andEndsAt: 2.
 self assert: aBoard lengthInSquares  equals: 20.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test013IfSpaceshipLandsOnWormholeInSquareFourPlayerGetsMovedToSquareFive [
 
 	| aSpaceship aLoadedDie aGame aBoard  someDice spaceshipsData |
@@ -69,7 +70,7 @@ BoardTest >> test013IfSpaceshipLandsOnWormholeInSquareFourPlayerGetsMovedToSquar
 	self assert: (aGame positionOf: aSpaceship) equals: 5
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test014IfSpaceshipLandsOnWormholeStartingPointEndsInEndpoint [
 
 	| aSpaceship aLoadedDie aGame aBoard someDice spaceshipsData |
@@ -90,7 +91,7 @@ BoardTest >> test014IfSpaceshipLandsOnWormholeStartingPointEndsInEndpoint [
 	self assert: (aGame positionOf: aSpaceship) equals: 7
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test015IfSpaceshipLandsOnWormholeEndpointEndsInStartingPoint [
 
 	| aSpaceship aLoadedDie aGame aBoard someDice spaceshipsData |
@@ -111,7 +112,7 @@ BoardTest >> test015IfSpaceshipLandsOnWormholeEndpointEndsInStartingPoint [
 	self assert: (aGame positionOf: aSpaceship) equals: 3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test032BoardMustBeCreatedWithAtLeastOneSquare [
 
 	| aBoard |
@@ -119,7 +120,7 @@ BoardTest >> test032BoardMustBeCreatedWithAtLeastOneSquare [
 	self should: [ aBoard := Board of: 0 wormholeBeginsAt: 0 andEndsAt: 0. ] raise: Error withMessage: 'Board must have at least 1 square'.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test033BoardCannotBeCreatedIfWormholeIsOutOfBounds [
 
 	| aBoard |
@@ -127,7 +128,7 @@ BoardTest >> test033BoardCannotBeCreatedIfWormholeIsOutOfBounds [
 	self should: [ aBoard := Board of: 1 wormholeBeginsAt: 2 andEndsAt: 3. ] raise: Error withMessage: 'Wormhole out of bounds'. 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test034BoardCannotBeCreatedIfWormholeEndpointsAreNegative [
 
 	| aBoard |
@@ -136,7 +137,7 @@ BoardTest >> test034BoardCannotBeCreatedIfWormholeEndpointsAreNegative [
 	self should: [ aBoard := Board of: 1 wormholeBeginsAt: -1 andEndsAt: -2. ] raise: Error withMessage: 'Wormhole out of bounds'.  
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test035BoardCannotBeCreatedIfWormholeEndpointsAreInTheSameSquare [
 
 	| aBoard | 
@@ -144,7 +145,7 @@ BoardTest >> test035BoardCannotBeCreatedIfWormholeEndpointsAreInTheSameSquare [
 	self should: [ aBoard := Board of: 3 wormholeBeginsAt: 1 andEndsAt: 1. ] raise: Error withMessage: 'Wormhole endpoints cannot be in the same square'.  
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test037WhenSpaceshipPassesFinalSquareThenGoesBackToBeginning [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -162,7 +163,7 @@ BoardTest >> test037WhenSpaceshipPassesFinalSquareThenGoesBackToBeginning [
 	self assert: (aGame positionOf: aSpaceship) equals: 3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test038WhenSpaceshipMovesTenInBoardOfEightThenGoesToSquareThree [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -180,7 +181,7 @@ BoardTest >> test038WhenSpaceshipMovesTenInBoardOfEightThenGoesToSquareThree [
 	self assert: (aGame positionOf: aSpaceship) equals: 2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test055WhenLandingInABlackholeSpaceshipGoesBackFourSquares [
 
 	| aGame aSpaceship aBoard aDie  spaceshipsData |
@@ -198,7 +199,7 @@ BoardTest >> test055WhenLandingInABlackholeSpaceshipGoesBackFourSquares [
 	self assert: (aGame positionOf: aSpaceship) equals: 2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test056IfSpaceshipLandsOnHyperSpaceJumpSquareThenAdvancesFourSquares [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -217,7 +218,7 @@ BoardTest >> test056IfSpaceshipLandsOnHyperSpaceJumpSquareThenAdvancesFourSquare
 	self assert: (aGame positionOf: aSpaceship) equals: 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test057IfSpaceshipLandsOnHyperSpaceJumpSquareThenLosesAShield [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -237,7 +238,7 @@ BoardTest >> test057IfSpaceshipLandsOnHyperSpaceJumpSquareThenLosesAShield [
 	self assert: (aGame shieldsOf: aSpaceship) equals: 2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test058WhenSpaceshipLandsOnMoonWalkSquareThenOtherSpaceshipsGetSentBackN [
 
 	| aGame aSpaceship anotherSpaceship aBoard aDie spaceshipsData |
@@ -257,7 +258,7 @@ BoardTest >> test058WhenSpaceshipLandsOnMoonWalkSquareThenOtherSpaceshipsGetSent
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test059WhenSpaceshipLandsOnMoonwalkSquareThenItDoesntMove [
 
 	| aGame aSpaceship anotherSpaceship aBoard aDie spaceshipsData |
@@ -276,7 +277,7 @@ BoardTest >> test059WhenSpaceshipLandsOnMoonwalkSquareThenItDoesntMove [
 	self assert: (aGame positionOf: anotherSpaceship) equals: 6
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test060WhenSpaceshipLandsOnAtomicBombSquareThenGetsSentBackToBeginning [
 
 	| aGame aSpaceship aDie aBoard spaceshipsData |
@@ -295,7 +296,7 @@ BoardTest >> test060WhenSpaceshipLandsOnAtomicBombSquareThenGetsSentBackToBeginn
 	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test061WhenSpaceshipLandsOnAtomicBombEffectThenEveryoneGetsSentToSquareOne [
 
 	| aGame aSpaceship anotherSpaceship aBoard aDie spaceshipsData |
@@ -317,7 +318,7 @@ BoardTest >> test061WhenSpaceshipLandsOnAtomicBombEffectThenEveryoneGetsSentToSq
 			 (aGame positionOf: aSpaceship) = 1)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test062WhenSpaceshipLandsOnAtomicBombAllShieldsGetReducedByOne [
 
 	| aGame aSpaceship anotherSpaceship aBoard aDie spaceshipsData |
@@ -339,7 +340,7 @@ BoardTest >> test062WhenSpaceshipLandsOnAtomicBombAllShieldsGetReducedByOne [
 			 (aGame shieldsOf: aSpaceship) = 2)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test063WhenSpaceshipLandsOnAtomicBombAllShieldsGoDownByOne [
 
 	| aGame aSpaceship anotherSpaceship aBoard aDie atomicBombEffect spaceshipsData |
@@ -368,7 +369,7 @@ BoardTest >> test063WhenSpaceshipLandsOnAtomicBombAllShieldsGoDownByOne [
 			 (aGame shieldsOf: aSpaceship) = 2)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test064WhenTwoSpaceshipOnAnEffectSquareThenTheEffectsHappensBeforeBattle [
 
 	| aGame aSpaceship anotherSpaceship aBoard aDie spaceshipsData |
@@ -390,7 +391,7 @@ BoardTest >> test064WhenTwoSpaceshipOnAnEffectSquareThenTheEffectsHappensBeforeB
 	self assert: (aGame shieldsOf: aSpaceship) equals: 3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test065WhenSpaceshipLandsOnSquareWithEffectAndGetsMovedToASquareWithAnotherSpaceshipThenTheyBattle [
 
 	| aGame aSpaceship anotherSpaceship aBoard aDie spaceshipsData |
@@ -411,7 +412,7 @@ BoardTest >> test065WhenSpaceshipLandsOnSquareWithEffectAndGetsMovedToASquareWit
 	self assert: (aGame shieldsOf: aSpaceship) equals: 2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test068WhenSpaceshipLandsOnHyperJumpSquareGetsMovedOneParsecAhead [
 
 	| aGame aSpaceship aBoard aDie aParsecDistance spaceshipsData |
@@ -433,7 +434,7 @@ BoardTest >> test068WhenSpaceshipLandsOnHyperJumpSquareGetsMovedOneParsecAhead [
 	self assert: (aGame positionOf: aSpaceship) equals: 6
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test070HyperJumpStoresAnArrayOfParsecsAndLoopsThroughThem [
 
 	| aGame aSpaceship anotherSpaceship yetAnotherSpaceship aBoard aDie aParsecDistance anotherParsecDistance spaceshipsData |
@@ -474,7 +475,7 @@ BoardTest >> test070HyperJumpStoresAnArrayOfParsecsAndLoopsThroughThem [
 				  (aGame positionOf: yetAnotherSpaceship) = 1))
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test071WhenSpaceshipLandsOnHyperJumpSquareGetsMovedOneParsecAndFourSquares [
 
 	| aGame aSpaceship aBoard aDie hyperJumpEffect squares aParsecDistance spaceshipsData |
@@ -523,7 +524,7 @@ BoardTest >> test071WhenSpaceshipLandsOnHyperJumpSquareGetsMovedOneParsecAndFour
 	self assert: (aGame positionOf: aSpaceship) equals: 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test072WhenBoardHasMoreParsecsThanSquaresThenSpaceshipMovesTwoParsecsAndOneSquare [
 
 	| aGame aSpaceship aBoard aDie aParsecDistance spaceshipsData |
@@ -555,7 +556,7 @@ BoardTest >> test072WhenBoardHasMoreParsecsThanSquaresThenSpaceshipMovesTwoParse
 	self assert: (aGame positionOf: aSpaceship) equals: 7
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test073SpaceshipOnlyMovesWhenParsecsToSquaresRatioIsAnEvenNumber [
 
 	| aGame aSpaceship aBoard aDie aParsecDistance spaceshipsData |
@@ -588,7 +589,7 @@ BoardTest >> test073SpaceshipOnlyMovesWhenParsecsToSquaresRatioIsAnEvenNumber [
 	self assert: (aGame positionOf: aSpaceship) equals: 7
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test074SpaceshipLosesALapIfItGetsSentBackPastTheFirstSquare [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -615,7 +616,7 @@ BoardTest >> test074SpaceshipLosesALapIfItGetsSentBackPastTheFirstSquare [
 	self assert: (aGame lapsOf: aSpaceship) equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test075SpaceshipCantGoBackFurtherThanTheFirstSquareOnTheFirstLap [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -635,7 +636,7 @@ BoardTest >> test075SpaceshipCantGoBackFurtherThanTheFirstSquareOnTheFirstLap [
 	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test076IfSpaceshipCompletesALapAndGoesBackBeyondTheFirstSquareThenItLosesTheLap [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -655,7 +656,7 @@ BoardTest >> test076IfSpaceshipCompletesALapAndGoesBackBeyondTheFirstSquareThenI
 	self assert: (aGame lapsOf: aSpaceship) equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test077WhenSpaceshipGoesBackMultipleLapsWithMoonwalkEffectThenLosesThoseLaps [
 
 	| aGame aSpaceship anotherSpaceship aBoard aDie moonwalkEffect spaceshipsData |
@@ -681,7 +682,7 @@ BoardTest >> test077WhenSpaceshipGoesBackMultipleLapsWithMoonwalkEffectThenLoses
 	self assert: (aGame lapsOf: aSpaceship) equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test081HyperJumpEffectCanJumpLightyears [
 
 	| aGame aSpaceship aBoard aDie aLightyearDistance spaceshipsData |
@@ -712,7 +713,7 @@ BoardTest >> test081HyperJumpEffectCanJumpLightyears [
 	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test082HyperJumpEffectStoresParsecAndLightYearArray [
 
 	| aGame aSpaceship aBoard aDie aLightyearDistance aParsecDistance spaceshipsData |
@@ -744,7 +745,7 @@ BoardTest >> test082HyperJumpEffectStoresParsecAndLightYearArray [
 	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test121WhenSpaceshipUsesRepeatCardAndMovesFurtherThanTheLastSquareThenGainsALap [
 
 	| aGame aSpaceship anotherSpaceship yetAnotherSpaceship aCard aBoard aDie spaceshipsData |
@@ -786,7 +787,7 @@ BoardTest >> test121WhenSpaceshipUsesRepeatCardAndMovesFurtherThanTheLastSquareT
 	self assert: (aGame lapsOf: yetAnotherSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test131WhenBoardWithFiveSquaresAndFiveParsecsReturnsLengthInParsecsEqualsToFive [
 
 	| aBoard |
@@ -794,7 +795,7 @@ BoardTest >> test131WhenBoardWithFiveSquaresAndFiveParsecsReturnsLengthInParsecs
 	self assert: aBoard lengthInParsecs  equals: 5.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test132BoardWithFiveParsecsEqualsFifteenLightYears [
 
 	| aBoard |
@@ -802,7 +803,7 @@ BoardTest >> test132BoardWithFiveParsecsEqualsFifteenLightYears [
 	self assert: aBoard lengthInLightYears  equals: 15.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test133LengthInLightYearsEqualsThreeTimesLengthInParsecs [
 
 	| aBoard |
@@ -810,7 +811,7 @@ BoardTest >> test133LengthInLightYearsEqualsThreeTimesLengthInParsecs [
 	self assert: aBoard lengthInLightYears  equals: 18.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test134BoardCanExpressItsLengthInParsecs [
 
 	| aBoard |
@@ -818,7 +819,7 @@ BoardTest >> test134BoardCanExpressItsLengthInParsecs [
 	self assert: aBoard lengthInParsecs equals: 6.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test135BoardCreatedWithAParsecDistance [
 
 	| aBoard aParsecDistance |
@@ -828,7 +829,7 @@ BoardTest >> test135BoardCreatedWithAParsecDistance [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardTest >> test136BoardCreatedWithLightYearsDistance [
 
 	| aBoard aLightYearsDistance |
