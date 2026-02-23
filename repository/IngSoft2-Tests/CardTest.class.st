@@ -1454,7 +1454,7 @@ CardTest >> test144banana [
 	aGame:= Game playedBy: spaceshipsData on: aBoard throwing: (OrderedCollection with: aDie) wonAfter: 3.
 	aCard:= ReversePolarityCard new.
 	
-	aGame play: ReversePolarityCard from: aSpaceship targeting: 5.
+	aGame play: aCard from: aSpaceship targeting: (SquareSelection at: 5).
 	aGame playTurn.
 	
 	self assert: (aGame positionOf: anotherSpaceship) equals: 15

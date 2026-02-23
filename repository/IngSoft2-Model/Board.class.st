@@ -147,6 +147,12 @@ Board >> lengthInSquares [
 ^ boardOfSquares size.
 ]
 
+{ #category : 'accessing' }
+Board >> squareAt: aSquareNumber [
+
+	^boardOfSquares at: aSquareNumber
+]
+
 { #category : 'converting' }
 Board >> squareNumberAfterMoving: anAmountOfSquares [
 

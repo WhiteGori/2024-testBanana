@@ -56,3 +56,8 @@ Square >> land: aSpaceship in:aGame [
 	aGame saveLastEffectTriggeredTo: effect .
 	^ effect applyIn: aGame for: aSpaceship 
 ]
+
+{ #category : 'as yet unclassified' }
+Square >> reverseEffectTargeting [
+	effect reverseTargeting.
+]

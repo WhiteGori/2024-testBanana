@@ -28,7 +28,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'otherSide',
-		'myPosition'
+		'myPosition',
+		'targeting'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -42,7 +43,11 @@ WormholeEffect class >> isIn: aPosition goesTo: anotherPosition [
 
 { #category : 'action' }
 WormholeEffect >> applyIn: aGame for: aSpaceship [ 
-	aGame move: aSpaceship to: otherSide .
+	
+	|target|
+	
+	target := targeting targets: aSpaceship in: aGame.
+	target do: [ :spaceship | aGame move: spaceship to: otherSide ].
 
 
 
@@ -52,6 +57,7 @@ WormholeEffect >> applyIn: aGame for: aSpaceship [
 { #category : 'initialization' }
 WormholeEffect >> initializeIsIn: aPosition goesTo: anotherPosition [
 
+targeting := LandingShipTarget new.
 otherSide := anotherPosition.
 myPosition:= aPosition .
 ]
@@ -60,6 +66,11 @@ myPosition:= aPosition .
 WormholeEffect >> position [
 
 ^myPosition 
+]
+
+{ #category : 'as yet unclassified' }
+WormholeEffect >> reverseTargeting [
+	targeting:= targeting reverse.
 ]
 
 { #category : 'initialization' }

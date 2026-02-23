@@ -344,6 +344,11 @@ Game >> skipTurn [
 	
 ]
 
+{ #category : 'accessing' }
+Game >> squareAt: aSquareNumber [
+	^board squareAt: aSquareNumber 
+]
+
 { #category : 'action' }
 Game >> throwDice [
 
