@@ -68,7 +68,7 @@ WormholeEffect >> position [
 ^myPosition 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'action' }
 WormholeEffect >> reverseTargeting [
 	targeting:= targeting reverse.
 ]

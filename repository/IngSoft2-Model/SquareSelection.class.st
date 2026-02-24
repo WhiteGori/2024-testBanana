@@ -14,7 +14,7 @@ SquareSelection class >> at: aSquareNumber [
 	^self new initializeAt: aSquareNumber
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'action' }
 SquareSelection >> applyReversePolarityIn: aGame [
 	
 	(self squareIn: aGame) reverseEffectTargeting .
@@ -27,7 +27,7 @@ SquareSelection >> initializeAt: aSquareNumber [
 	squareNumber:= aSquareNumber
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SquareSelection >> squareIn: aGame [
 	^aGame squareAt: squareNumber 
 ]

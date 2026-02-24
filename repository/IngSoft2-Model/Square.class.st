@@ -57,7 +57,7 @@ Square >> land: aSpaceship in:aGame [
 	^ effect applyIn: aGame for: aSpaceship 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'act' }
 Square >> reverseEffectTargeting [
 	effect reverseTargeting.
 ]

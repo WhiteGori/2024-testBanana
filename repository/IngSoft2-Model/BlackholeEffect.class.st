@@ -27,7 +27,8 @@ Class {
 	#name : 'BlackholeEffect',
 	#superclass : 'Object',
 	#instVars : [
-		'myPosition'
+		'myPosition',
+		'targeting'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -41,13 +42,18 @@ BlackholeEffect class >> isIn: aPosition [
 
 { #category : 'action' }
 BlackholeEffect >> applyIn: aGame for: aSpaceship [
-	aGame make: aSpaceship  move: -4.
+	
+	|target|
+	
+	target := targeting targets: aSpaceship in: aGame.
+	target do: [ :spaceship | aGame make: spaceship  move: -4 ].
 
 ]
 
 { #category : 'initialization' }
 BlackholeEffect >> initializeIsIn: aPosition [ 
 
+targeting := LandingShipTarget new.
 myPosition := aPosition.
 ]
 
@@ -55,6 +61,11 @@ myPosition := aPosition.
 BlackholeEffect >> position [
 
 ^myPosition 
+]
+
+{ #category : 'action' }
+BlackholeEffect >> reverseTargeting [
+	targeting:= targeting reverse.
 ]
 
 { #category : 'initialization' }
