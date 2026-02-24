@@ -21,12 +21,13 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #RedoCard,
-	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#name : 'RedoCard',
+	#superclass : 'Object',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #action }
+{ #category : 'action' }
 RedoCard >> from: aSpaceship withTarget: aTarget useIn: aGame [
 	aGame redoLastCardPlayedFor: aSpaceship withTarget: aTarget
 ]

@@ -1,10 +1,11 @@
 Class {
-	#name : #BoardDistributionCreatorTest,
-	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests'
+	#name : 'BoardDistributionCreatorTest',
+	#superclass : 'TestCase',
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardDistributionCreatorTest >> test079BoardDistributionCreatorMakesABoardOfIndicatedLength [
 
 	| aBoardDistributionCreator probabilites |
@@ -21,7 +22,7 @@ BoardDistributionCreatorTest >> test079BoardDistributionCreatorMakesABoardOfIndi
 		equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardDistributionCreatorTest >> test080WhenProbabilityIs100ThenEffectIsCreated [
 
 	| aBoardDistributionCreator probabilites |
@@ -38,7 +39,7 @@ BoardDistributionCreatorTest >> test080WhenProbabilityIs100ThenEffectIsCreated [
 		equals: MysteryCardEffect 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 BoardDistributionCreatorTest >> test122BoardDistributionCreatorMakesABoardWithValidEffects [ 
 
 	| aBoardDistributionCreator probabilites  squares effectTypes|

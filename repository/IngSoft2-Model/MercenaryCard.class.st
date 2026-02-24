@@ -1,14 +1,15 @@
 Class {
-	#name : #MercenaryCard,
-	#superclass : #PermanentCard,
+	#name : 'MercenaryCard',
+	#superclass : 'PermanentCard',
 	#instVars : [
 		'ally',
 		'mercenary'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #action }
+{ #category : 'action' }
 MercenaryCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	self validateAllianceBetween: aSpaceship and: anotherSpaceship .
@@ -18,30 +19,30 @@ MercenaryCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	aGame addActiveCard: self.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MercenaryCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 
 ^((aSpaceship = ally) and: anotherSpaceship = mercenary) or: ((aSpaceship = mercenary ) and: anotherSpaceship = ally)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MercenaryCard >> mercenary [
 ^mercenary
 ]
 
-{ #category : #playing }
+{ #category : 'playing' }
 MercenaryCard >> playOn: aSpaceship [
 
 ^0.
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 MercenaryCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
 
 aSpaceship =ally ifTrue: [ aGame decreaseShieldByOneOf:  mercenary. ].
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 MercenaryCard >> reinforce: aSpaceship in: aGame [
 
 
@@ -49,7 +50,7 @@ aSpaceship = ally ifTrue: [ ^aGame throwDice ].
 ^0.
 ]
 
-{ #category : #validation }
+{ #category : 'validation' }
 MercenaryCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
 	aSpaceship = anotherSpaceship ifTrue: [ Error signal: 'A spaceship cannot be its own mercenary' ]
 ]

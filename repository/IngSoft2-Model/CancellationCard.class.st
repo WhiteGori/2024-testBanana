@@ -21,12 +21,14 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #CancellationCard,
-	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#name : 'CancellationCard',
+	#superclass : 'Object',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #action }
+{ #category : 'action' }
 CancellationCard >> from: aSpaceship withTarget: aCard useIn: aGame [ 
+	aCard cancelIn: aGame.
 	aGame removeActiveCard: aCard.
 ]

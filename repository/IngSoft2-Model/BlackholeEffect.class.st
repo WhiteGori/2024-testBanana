@@ -24,39 +24,51 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #BlackholeEffect,
-	#superclass : #Object,
+	#name : 'BlackholeEffect',
+	#superclass : 'Object',
 	#instVars : [
-		'myPosition'
+		'myPosition',
+		'targeting'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 BlackholeEffect class >> isIn: aPosition [
 
  ^self new initializeIsIn: aPosition 
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 BlackholeEffect >> applyIn: aGame for: aSpaceship [
-	aGame make: aSpaceship  move: -4.
+	
+	|target|
+	
+	target := targeting targets: aSpaceship in: aGame.
+	target do: [ :spaceship | aGame make: spaceship  move: -4 ].
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BlackholeEffect >> initializeIsIn: aPosition [ 
 
+targeting := LandingShipTarget new.
 myPosition := aPosition.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BlackholeEffect >> position [
 
 ^myPosition 
 ]
 
-{ #category : #initialization }
+{ #category : 'action' }
+BlackholeEffect >> reverseTargeting [
+	targeting:= targeting reverse.
+]
+
+{ #category : 'initialization' }
 BlackholeEffect >> setPosition: aPosition [
 myPosition := aPosition.
 

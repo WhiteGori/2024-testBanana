@@ -1,10 +1,11 @@
 Class {
-	#name : #SpaceshipTest,
-	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests'
+	#name : 'SpaceshipTest',
+	#superclass : 'TestCase',
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 SpaceshipTest >> test026SpaceshipCreatedWithAName [
 	
 	| aSpaceship |
@@ -12,7 +13,7 @@ SpaceshipTest >> test026SpaceshipCreatedWithAName [
 	self assert: aSpaceship getName equals: 'Millenium Falcon'	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SpaceshipTest >> test027SpaceshipCreatedWithAnotherName [
 
 	| aSpaceship |
@@ -20,7 +21,7 @@ SpaceshipTest >> test027SpaceshipCreatedWithAnotherName [
 	self assert: aSpaceship getName equals: 'Death Star'	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SpaceshipTest >> test120SpaceshipsShieldsCannotBeLessThanZero [
 
 	| aSpaceship |

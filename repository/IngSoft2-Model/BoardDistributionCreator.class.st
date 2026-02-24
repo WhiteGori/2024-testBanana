@@ -21,12 +21,13 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #BoardDistributionCreator,
-	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#name : 'BoardDistributionCreator',
+	#superclass : 'Object',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 BoardDistributionCreator >> createHyperJumpIn: aSquare withParsecRatio: aRatio maximumAmountOfValues: anAmount [
 
 	| hyperJumpEffect toMove randomAmount |
@@ -44,7 +45,7 @@ BoardDistributionCreator >> createHyperJumpIn: aSquare withParsecRatio: aRatio m
 	^ hyperJumpEffect
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 BoardDistributionCreator >> createOf: length with: someProbabilities withParsecs: anAmountOfParsecs maximumHyperJumpValues: anAmount [
 
 	| squares specialEffect random lowerLimit |

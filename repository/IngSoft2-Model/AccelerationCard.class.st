@@ -1,44 +1,45 @@
 Class {
-	#name : #AccelerationCard,
-	#superclass : #PermanentCard,
-	#category : #'IngSoft2-Model'
+	#name : 'AccelerationCard',
+	#superclass : 'PermanentCard',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #action }
+{ #category : 'action' }
 AccelerationCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	aGame addActiveCard: self.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 AccelerationCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 
 ^false.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 AccelerationCard >> mercenary [
 ^0
 ]
 
-{ #category : #playing }
+{ #category : 'playing' }
 AccelerationCard >> playOn: aSpaceship [
 
 ^1
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 AccelerationCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
 
 
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 AccelerationCard >> reinforce: aSpaceship in: aGame [
 
 ^0.
 ]
 
-{ #category : #validation }
+{ #category : 'validation' }
 AccelerationCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
 ]

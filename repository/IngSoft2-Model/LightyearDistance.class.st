@@ -1,24 +1,25 @@
 Class {
-	#name : #LightyearDistance,
-	#superclass : #Object,
+	#name : 'LightyearDistance',
+	#superclass : 'Object',
 	#instVars : [
 		'travelDistance'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 LightyearDistance class >> of: aDistance [
 
 	^ self new initializeOf: aDistance
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 LightyearDistance >> inParsecs [
 ^travelDistance //3
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 LightyearDistance >> initializeOf: aDistance [
 
 travelDistance := aDistance.

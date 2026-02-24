@@ -1,10 +1,11 @@
 Class {
-	#name : #GameTest,
-	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests'
+	#name : 'GameTest',
+	#superclass : 'TestCase',
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GameTest >> createBoardOf: length distance: aDistance withEffects: someEffects wormholeBeginsAt: startPoint andEndsAt: endPoint [
 
 	| squares |
@@ -21,7 +22,7 @@ GameTest >> createBoardOf: length distance: aDistance withEffects: someEffects w
 		  andEndsAt: endPoint
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> should: anErrorBlock raise: anError withMessage: errorMessage [
 
 self 
@@ -31,7 +32,7 @@ self
 										self assert: error messageText  equals: errorMessage  ].
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test001WhenGameStartedThenIsOngoing [
 	"Let the games begin"
 
@@ -47,7 +48,7 @@ GameTest >> test001WhenGameStartedThenIsOngoing [
 	^ self assert: aGame isOngoing
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test002WhenGameEndsThenIsOver [
 
 	| aGame aSpaceship spaceshipsData aBoard |
@@ -64,7 +65,7 @@ GameTest >> test002WhenGameEndsThenIsOver [
 	self deny: aGame isOngoing
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test003GameBeginsWithAPlayer [
 
 	| aGame aSpaceship spaceshipsData aBoard |
@@ -81,7 +82,7 @@ GameTest >> test003GameBeginsWithAPlayer [
 		equals: (OrderedCollection with: aSpaceship)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test004SpaceshipChangedPositionByOneWhenMoved [
 
 	| aSpaceship aGame spaceshipsData aBoard|
@@ -97,7 +98,7 @@ GameTest >> test004SpaceshipChangedPositionByOneWhenMoved [
 	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test005SpaceshipIsCreatedAtStartPoint [
 
 	| aSpaceship aGame spaceshipsData aBoard |
@@ -113,7 +114,7 @@ GameTest >> test005SpaceshipIsCreatedAtStartPoint [
 	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test006WhenGameHasOnlyOnePlayerThenThatPlayerWins [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -130,7 +131,7 @@ GameTest >> test006WhenGameHasOnlyOnePlayerThenThatPlayerWins [
 	self assert: aGame winner equals: aSpaceship
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test008WhenGameIsOngoingThereIsNoWinner [
 
 	| aGame aSpaceship aBoard spaceshipsData |
@@ -150,7 +151,7 @@ GameTest >> test008WhenGameIsOngoingThereIsNoWinner [
 		withMessage: 'The game is not over - there is no winner yet.'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test009SpaceshipDoesNotWinUntilItLandsOnTheLastSquare [
 
 	| aGame aSpaceship aBoard spaceshipsData |
@@ -168,7 +169,7 @@ GameTest >> test009SpaceshipDoesNotWinUntilItLandsOnTheLastSquare [
 	self should: [ aGame winner equals: aSpaceship ] raise: NotFound
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test011ASpaceshipMovesFiveSquaresWhenLoadedDieIsThrown [
 
 	| aSpaceship aLoadedDie aBoard aGame someDice spaceshipsData |
@@ -186,7 +187,7 @@ GameTest >> test011ASpaceshipMovesFiveSquaresWhenLoadedDieIsThrown [
 	self assert: (aGame positionOf: aSpaceship) equals: 6
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test012ASpaceshipMovesSevenSquaresWhenLoadedDieIsThrown [
 
 	| aSpaceship aLoadedDie aBoard aGame stack someDice spaceshipsData |
@@ -205,7 +206,7 @@ GameTest >> test012ASpaceshipMovesSevenSquaresWhenLoadedDieIsThrown [
 	self assert: (aGame positionOf: aSpaceship) equals: 8
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test016GameIndicatesTurnWithOnePlayer [
 
 	| aGame aSpaceship  spaceshipsData aBoard |
@@ -220,7 +221,7 @@ GameTest >> test016GameIndicatesTurnWithOnePlayer [
 	self assert: aGame nextSpaceshipToPlay equals: aSpaceship
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test017GameIndicatesFirstTurnWithTwoPlayers [
 
 	| aGame aSpaceship anotherSpaceship  spaceshipsData aBoard |
@@ -236,7 +237,7 @@ GameTest >> test017GameIndicatesFirstTurnWithTwoPlayers [
 	self assert: aGame nextSpaceshipToPlay equals: aSpaceship
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test018GameIndicatesSecondTurnWithTwoPlayers [
 
 	| aGame aSpaceship anotherSpaceship spaceshipsData aBoard |
@@ -253,7 +254,7 @@ GameTest >> test018GameIndicatesSecondTurnWithTwoPlayers [
 	self assert: aGame nextSpaceshipToPlay equals: anotherSpaceship
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test019GameResetsTurnsForNextRound [
 
 	| aGame aSpaceship anotherSpaceship spaceshipsData aBoard |
@@ -272,7 +273,7 @@ GameTest >> test019GameResetsTurnsForNextRound [
 	self assert: aGame nextSpaceshipToPlay equals: aSpaceship
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test020GameWithMultiplePlayersKnowsTheWinner [
 
 	| aGame aSpaceship anotherSpaceship aBoard aLoadedDie someDice spaceshipsData |
@@ -293,7 +294,7 @@ GameTest >> test020GameWithMultiplePlayersKnowsTheWinner [
 	self assert: aGame winner equals: aSpaceship
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test021WhenGameIsOverLeaderboardIsShown [
 
 	| aGame aSpaceship anotherSpaceship aBoard aLoadedDie someDice spaceshipsData |
@@ -316,7 +317,7 @@ GameTest >> test021WhenGameIsOverLeaderboardIsShown [
 		equals: (OrderedCollection with: aSpaceship with: anotherSpaceship)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test022GameEndsAutomaticallyWhenSpaceshipPassesLastSquare [
 
 	| aBoard aSpaceship aGame aLoadedDie someDice spaceshipsData |
@@ -335,7 +336,7 @@ GameTest >> test022GameEndsAutomaticallyWhenSpaceshipPassesLastSquare [
 	self deny: aGame isOngoing
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test023GameWithMultiplePlayersShowsLeaderBoard [
 
 	| aGame aSpaceship anotherSpaceship yetAnotherSpaceship  aBoard aLoadedDie someDice leaderboard spaceshipsData |
@@ -362,7 +363,7 @@ GameTest >> test023GameWithMultiplePlayersShowsLeaderBoard [
 				 with: yetAnotherSpaceship)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test024GameStoresADie [
 
 	| aGame aSpaceship aBoard aLoadedDie someDice spaceshipsData |
@@ -380,7 +381,7 @@ GameTest >> test024GameStoresADie [
 	self assert: (aGame positionOf: aSpaceship) equals: 7
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test025GameCanUseMultipleDice [
 
 	| aGame aSpaceship  aBoard aLoadedDie anotherLoadedDie someDice spaceshipsData |
@@ -399,7 +400,7 @@ GameTest >> test025GameCanUseMultipleDice [
 	self assert: (aGame positionOf: aSpaceship) equals: 11
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test031TurnCannotBePlayedIfGameIsOver [
 
 	| aGame aSpaceship aDie aBoard spaceshipsData |
@@ -420,7 +421,7 @@ GameTest >> test031TurnCannotBePlayedIfGameIsOver [
 		withMessage: 'Game has already ended'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test036GameCannotShowPositionOfSpaceshipsThatArentPlaying [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -441,7 +442,7 @@ GameTest >> test036GameCannotShowPositionOfSpaceshipsThatArentPlaying [
 		withMessage: 'That spaceship is not a player in this game'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test39AfterSpaceshipPassesLastSquareForTheFirstTimeThenNumberOfLapsIsOne [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -459,7 +460,7 @@ GameTest >> test39AfterSpaceshipPassesLastSquareForTheFirstTimeThenNumberOfLapsI
 	self assert: (aGame lapsOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test40AfterSpaceshipCrossesTheFinishLineTwiceThenHasTwoLaps [
 
 	| aGame aSpaceship aBoard aDie spaceshipsData |
@@ -477,7 +478,7 @@ GameTest >> test40AfterSpaceshipCrossesTheFinishLineTwiceThenHasTwoLaps [
 	self assert: (aGame lapsOf: aSpaceship) equals: 2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test42ASpaceshipStartsWithThreeShields [
 
 	| aGame aSpaceship aDie aBoard spaceshipsData |
@@ -493,7 +494,7 @@ GameTest >> test42ASpaceshipStartsWithThreeShields [
 	self assert: (aGame shieldsOf: aSpaceship) equals: 3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test43AfterLosingABattleSpaceshipLosesAShield [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -512,7 +513,7 @@ GameTest >> test43AfterLosingABattleSpaceshipLosesAShield [
 	self assert: (aGame shieldsOf: aSpaceship) equals: 2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test44IfSpaceshipWinsBattleDoesntLoseShields [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -531,7 +532,7 @@ GameTest >> test44IfSpaceshipWinsBattleDoesntLoseShields [
 	self assert: (aGame shieldsOf: aSpaceship) equals: 3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test45SpaceshipLosesTwoBattlesAndLosesTwoShields [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -551,7 +552,7 @@ GameTest >> test45SpaceshipLosesTwoBattlesAndLosesTwoShields [
 	self assert: (aGame shieldsOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test46AfterLosingBattleSpaceshipGetsSentToBeginning [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -572,7 +573,7 @@ GameTest >> test46AfterLosingBattleSpaceshipGetsSentToBeginning [
 	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test47WhenTwoSpaceshipsLandOnTheSameSquareTheyBattle [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -593,7 +594,7 @@ GameTest >> test47WhenTwoSpaceshipsLandOnTheSameSquareTheyBattle [
 	self assert: (aGame positionOf: anotherSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test48IfBattleEndsOnADrawThenLastSpaceshipToArriveLoses [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -613,7 +614,7 @@ GameTest >> test48IfBattleEndsOnADrawThenLastSpaceshipToArriveLoses [
 			 (aGame positionOf: aSpaceship) = 4)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test49SpaceshipCanSkipTurn [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -632,7 +633,7 @@ GameTest >> test49SpaceshipCanSkipTurn [
 	self assert: aGame nextSpaceshipToPlay equals: anotherSpaceship
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test50SkippingATurnRechargesShields [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -652,7 +653,7 @@ GameTest >> test50SkippingATurnRechargesShields [
 	self assert: (aGame shieldsOf: aSpaceship) equals: 3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test51FirstSquareIsASafeZone [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -671,7 +672,7 @@ GameTest >> test51FirstSquareIsASafeZone [
 	self assert: (aGame shieldsOf: anotherSpaceship) equals: 3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test52IfSpaceshipLosesAllShieldsThenTheirTurnGetsSkipped [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -691,7 +692,7 @@ GameTest >> test52IfSpaceshipLosesAllShieldsThenTheirTurnGetsSkipped [
 	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test53AfterLosingAllShieldsSpaceshipCannotPlayForTwoTurns [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -714,7 +715,7 @@ GameTest >> test53AfterLosingAllShieldsSpaceshipCannotPlayForTwoTurns [
 	self assert: (aGame positionOf: aSpaceship) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test54AfterLosingTwoTurnsSpaceshipCanPlayAgain [
 
 	| aGame aSpaceship anotherSpaceship aDie aBoard spaceshipsData |
@@ -735,7 +736,7 @@ GameTest >> test54AfterLosingTwoTurnsSpaceshipCanPlayAgain [
 	self assert: (aGame positionOf: aSpaceship) equals: 3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test66GameIsWonAfterOneLap [
 
 	| aGame aSpaceship aBoard aDie aNumberOfLaps spaceshipsData |
@@ -761,7 +762,7 @@ GameTest >> test66GameIsWonAfterOneLap [
 	self assert: aGame winner equals: aSpaceship
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test67GameIsWonAfterANumberOfLaps [
 
 	| aGame aSpaceship aBoard aDie aNumberOfLaps spaceshipsData |
@@ -786,7 +787,7 @@ GameTest >> test67GameIsWonAfterANumberOfLaps [
 	self assert: aGame winner equals: aSpaceship
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 GameTest >> test78FirstSquareIsASafeZone [
 
 	| aGame aSpaceship anotherSpaceship aBoard aDie  spaceshipsData |

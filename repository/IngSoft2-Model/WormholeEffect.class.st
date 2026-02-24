@@ -24,44 +24,56 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #WormholeEffect,
-	#superclass : #Object,
+	#name : 'WormholeEffect',
+	#superclass : 'Object',
 	#instVars : [
 		'otherSide',
-		'myPosition'
+		'myPosition',
+		'targeting'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 WormholeEffect class >> isIn: aPosition goesTo: anotherPosition [
 
 ^self new initializeIsIn: aPosition goesTo: anotherPosition.
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 WormholeEffect >> applyIn: aGame for: aSpaceship [ 
-	aGame move: aSpaceship to: otherSide .
+	
+	|target|
+	
+	target := targeting targets: aSpaceship in: aGame.
+	target do: [ :spaceship | aGame move: spaceship to: otherSide ].
 
 
 
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WormholeEffect >> initializeIsIn: aPosition goesTo: anotherPosition [
 
+targeting := LandingShipTarget new.
 otherSide := anotherPosition.
 myPosition:= aPosition .
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WormholeEffect >> position [
 
 ^myPosition 
 ]
 
-{ #category : #initialization }
+{ #category : 'action' }
+WormholeEffect >> reverseTargeting [
+	targeting:= targeting reverse.
+]
+
+{ #category : 'initialization' }
 WormholeEffect >> setPosition: aPosition [
 myPosition := aPosition.
 ]

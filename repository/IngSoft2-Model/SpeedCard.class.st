@@ -24,33 +24,34 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #SpeedCard,
-	#superclass : #PermanentCard,
+	#name : 'SpeedCard',
+	#superclass : 'PermanentCard',
 	#instVars : [
 		'target'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #action }
+{ #category : 'action' }
 SpeedCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	target := anotherSpaceship .
 	aGame addActiveCard: self.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SpeedCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 
 ^false.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpeedCard >> mercenary [
 ^0
 ]
 
-{ #category : #playing }
+{ #category : 'playing' }
 SpeedCard >> playOn: aSpaceship [
 | cardModifier |
 cardModifier:=0.
@@ -58,16 +59,16 @@ aSpaceship = target ifTrue:[cardModifier:= 1].
 ^cardModifier
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 SpeedCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 SpeedCard >> reinforce: aSpaceship in: aGame [
 
 ^0.
 ]
 
-{ #category : #validation }
+{ #category : 'validation' }
 SpeedCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
 ]

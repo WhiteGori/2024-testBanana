@@ -1,10 +1,11 @@
 Class {
-	#name : #LoadedDieTest,
-	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests'
+	#name : 'LoadedDieTest',
+	#superclass : 'TestCase',
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 LoadedDieTest >> should: anErrorBlock raise: anError withMessage: errorMessage [
 
 self 
@@ -16,13 +17,13 @@ self
 	.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 LoadedDieTest >> testDieCannotHaveLessThanThreeFaces [
 
 self should: [ LoadedDie of: 2 ] raise: Error withMessage: 'Faces should be more than 2'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 LoadedDieTest >> testDieCreatedWithThreeFaces [
 
 |aDie|
@@ -32,7 +33,7 @@ aDie := LoadedDie  of: 3.
 self assert:  aDie throw equals: 3.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 LoadedDieTest >> testWhenDieIsThrownTwiceValueChanges [
 |aDie|
 
@@ -41,7 +42,7 @@ aDie := LoadedDie  arrayOf: (OrderedCollection with: 1 with: 2).
 self assert:  (aDie throw = 1 and: (aDie throw = 2)).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 LoadedDieTest >> testWhenDieIsThrownValueIsAmountOfFaces [
 
 |aDie|

@@ -24,34 +24,40 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Square,
-	#superclass : #Object,
+	#name : 'Square',
+	#superclass : 'Object',
 	#instVars : [
 		'effect'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Square class >> with: anEffect [
 
 ^ self new initializeWith: anEffect  
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Square >> effect [ 
  ^effect 
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 Square >> initializeWith: anEffect [
 
 effect := anEffect.
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 Square >> land: aSpaceship in:aGame [
 	aGame saveLastEffectTriggeredTo: effect .
 	^ effect applyIn: aGame for: aSpaceship 
+]
+
+{ #category : 'act' }
+Square >> reverseEffectTargeting [
+	effect reverseTargeting.
 ]

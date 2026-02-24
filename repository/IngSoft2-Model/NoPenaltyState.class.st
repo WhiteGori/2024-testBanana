@@ -21,12 +21,13 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #NoPenaltyState,
-	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#name : 'NoPenaltyState',
+	#superclass : 'Object',
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #action }
+{ #category : 'action' }
 NoPenaltyState >> playIn: aGame [
 
 	aGame turn .

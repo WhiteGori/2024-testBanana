@@ -25,44 +25,57 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #MoonWalkEffect,
-	#superclass : #Object,
+	#name : 'MoonWalkEffect',
+	#superclass : 'Object',
 	#instVars : [
 		'someSquares',
-		'myPosition'
+		'myPosition',
+		'targeting'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 MoonWalkEffect class >> isIn: aPosition [
 
 	^ self new initializeIsIn: aPosition  moves: aPosition atRandom
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 MoonWalkEffect class >> isIn: aPosition moves: aNumberOfSquares [
 
 	^ self new initializeIsIn: aPosition moves: aNumberOfSquares
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 MoonWalkEffect >> applyIn: aGame for: aSpaceship [ 
 	
-	aGame applyMoonwalkFor: aSpaceship movingOthersBack: someSquares  .
+	|target|
+	
+	target := targeting targets: aSpaceship in: aGame.
+	target do: [ :spaceship | aGame make: spaceship  move: someSquares negated ].
+	"aGame applyMoonwalkFor: aSpaceship movingOthersBack: someSquares  ."
+	
 	
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 MoonWalkEffect >> initializeIsIn: aSquare moves: aNumberOfSquares [ 
+	targeting := AllButLandingShipTarget new.
 	someSquares  := aNumberOfSquares .
 	myPosition := aSquare 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MoonWalkEffect >> position [
 
 ^myPosition 
 
+]
+
+{ #category : 'action' }
+MoonWalkEffect >> reverseTargeting [
+	targeting:= targeting reverse.
 ]

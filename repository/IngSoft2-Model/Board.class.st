@@ -21,16 +21,17 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Board,
-	#superclass : #Object,
+	#name : 'Board',
+	#superclass : 'Object',
 	#instVars : [
 		'boardOfSquares',
 		'parsecs'
 	],
-	#category : #'IngSoft2-Model'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Board class >> of: aNumberOfSquares wormholeBeginsAt: startingPoint andEndsAt: endPoint [
 
 	| boardOfSquares |
@@ -47,7 +48,7 @@ Board class >> of: aNumberOfSquares wormholeBeginsAt: startingPoint andEndsAt: e
 		  andEndsAt: endPoint
 ]
 
-{ #category : #'argument validation' }
+{ #category : 'argument validation' }
 Board class >> validate: aNumberOfSquares and: endPoint and: startingPoint [
 
 	self validateSizeOf: aNumberOfSquares.
@@ -58,20 +59,20 @@ Board class >> validate: aNumberOfSquares and: endPoint and: startingPoint [
 		areWithin: aNumberOfSquares
 ]
 
-{ #category : #'argument validation' }
+{ #category : 'argument validation' }
 Board class >> validate: endPoint isNotEqualTo: startingPoint [
 
 	startingPoint = endPoint ifTrue: [
 		Error signal: 'Wormhole endpoints cannot be in the same square' ]
 ]
 
-{ #category : #'argument validation' }
+{ #category : 'argument validation' }
 Board class >> validateSizeOf: aNumberOfSquares [
 	aNumberOfSquares <= 0 ifTrue: [ Error signal: 'Board must have at least 1 square' ].
 	
 ]
 
-{ #category : #'argument validation' }
+{ #category : 'argument validation' }
 Board class >> validateWormholeEndpointsOf: startingPoint and: endPoint areWithin: aNumberOfSquares [
 
 	(startingPoint > 0 and: (endPoint > 0 and:
@@ -81,7 +82,7 @@ Board class >> validateWormholeEndpointsOf: startingPoint and: endPoint areWithi
 	
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Board class >> with: theSquares length: aDistance wormholeBeginsAt: startPoint andEndsAt: endpoint [
 
 	^ self new
@@ -91,7 +92,7 @@ Board class >> with: theSquares length: aDistance wormholeBeginsAt: startPoint a
 		  andEndsAt: endpoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Board >> applyEffectFor: aSpaceship afterMovingTo: aSquare whenPlaying: aGame [
 
 	| squareToLand |
@@ -101,13 +102,13 @@ Board >> applyEffectFor: aSpaceship afterMovingTo: aSquare whenPlaying: aGame [
 
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 Board >> convertToSquares: aParsecDistance [
 
 ^ aParsecDistance * self lengthInSquares // (parsecs inParsecs) 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 Board >> initializeWith: theSquares length: aDistance wormholeBeginsAt: startingPoint andEndsAt: endPoint [
 
 	boardOfSquares := OrderedCollection  withAll: theSquares.
@@ -123,30 +124,36 @@ Board >> initializeWith: theSquares length: aDistance wormholeBeginsAt: starting
 		(Square with: (WormholeEffect isIn: endPoint goesTo: startingPoint))
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 Board >> lapsAfterMoving: totalSquaresMoved [
 
 	^totalSquaresMoved // self lengthInSquares 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Board >> lengthInLightYears [
 	^ parsecs inParsecs * 3.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Board >> lengthInParsecs [
 	^ parsecs inParsecs.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Board >> lengthInSquares [ 
 
 
 ^ boardOfSquares size.
 ]
 
-{ #category : #converting }
+{ #category : 'accessing' }
+Board >> squareAt: aSquareNumber [
+
+	^boardOfSquares at: aSquareNumber
+]
+
+{ #category : 'converting' }
 Board >> squareNumberAfterMoving: anAmountOfSquares [
 
 	^anAmountOfSquares % self lengthInSquares +1

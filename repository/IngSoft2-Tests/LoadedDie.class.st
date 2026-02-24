@@ -21,21 +21,22 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #LoadedDie,
-	#superclass : #Object,
+	#name : 'LoadedDie',
+	#superclass : 'Object',
 	#instVars : [
 		'faces',
 		'myValues'
 	],
-	#category : #'IngSoft2-Tests'
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 LoadedDie class >> arrayOf: values [ 
 	^self new initializeArrayOf: values 
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 LoadedDie class >> of: anAmountOfFaces [
 
 	self validateNumberOf: anAmountOfFaces.
@@ -43,26 +44,26 @@ LoadedDie class >> of: anAmountOfFaces [
 	^ self new initializeOf: anAmountOfFaces
 ]
 
-{ #category : #validation }
+{ #category : 'validation' }
 LoadedDie class >> validateNumberOf: anAmountOfFaces [
 
 	anAmountOfFaces < 3 ifTrue: [
 		Error signal: 'Faces should be more than 2' ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 LoadedDie >> initializeArrayOf: values [ 
 	myValues := values .
 	faces := 0.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 LoadedDie >> initializeOf: anAmountOfFaces [
 
 faces := anAmountOfFaces.
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 LoadedDie >> throw [
 
 	| result |
