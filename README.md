@@ -1,7 +1,7 @@
 # Ingenieria del Software II - Template
 
 ![GHA Status](https://github.com/WhiteGori/2024-testBanana/actions/workflows/GHA.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/WhiteGori/2024-testBanana/badge.svg)](https://coveralls.io/github/WhiteGori/2024-testBanana)
+[![Coverage Status](https://coveralls.io/repos/github/WhiteGori/2024-testBanana/badge.svg?branch=master)](https://coveralls.io/github/WhiteGori/2024-testBanana?branch=master)
 
 ## Metacello
 
