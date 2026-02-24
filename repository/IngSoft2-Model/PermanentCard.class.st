@@ -28,7 +28,13 @@ Class {
 }
 
 { #category : 'action' }
-PermanentCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
+PermanentCard >> cancelIn: aGame [
+
+	^self
+]
+
+{ #category : 'action' }
+PermanentCard >> from: aSpaceship withTarget: aTarget useIn: aGame [
 	self subclassResponsibility 
 ]
 

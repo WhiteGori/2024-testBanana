@@ -1,14 +1,24 @@
 Class {
 	#name : 'ReversePolarityCard',
 	#superclass : 'PermanentCard',
+	#instVars : [
+		'targetSquare'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'action' }
-ReversePolarityCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
+ReversePolarityCard >> cancelIn: aGame [
+	targetSquare applyReversePolarityIn: aGame.
+	
+]
+
+{ #category : 'action' }
+ReversePolarityCard >> from: aSpaceship withTarget: aTarget useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
-	anotherSpaceship applyReversePolarityIn: aGame.
+	targetSquare := aTarget .
+	aTarget applyReversePolarityIn: aGame.
 	aGame addActiveCard: self.
 ]
 

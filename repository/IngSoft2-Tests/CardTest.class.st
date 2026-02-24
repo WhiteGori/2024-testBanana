@@ -1775,3 +1775,75 @@ CardTest >> test154WhenReversePolarityCardIsPLayedOnNullEffectSquareNothingHappe
 
 	self assert: (aGame positionOf: aSpaceship ) equals: 5
 ]
+
+{ #category : 'tests' }
+CardTest >> test155WhenCancellationCardRemovesReversePolarityCardReversedEffectIsFixed [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: CancellationCard 
+					                    with: ReversePolarityCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 8 with: 9 with: 5).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := ReversePolarityCard new.
+	anotherCard := CancellationCard new.
+	
+	aGame play: aCard from: aSpaceship targeting: (SquareSelection at: 10).
+	aGame playTurn.
+	aGame playTurn.
+	aGame play: anotherCard from: aSpaceship targeting: aCard .
+	aGame playTurn.
+	
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 6
+]
+
+{ #category : 'tests' }
+CardTest >> test156SquareSelectionNumberCannotBeOutOfBounds [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: CancellationCard 
+					                    with: ReversePolarityCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 8 with: 9 with: 5).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := ReversePolarityCard new.
+	anotherCard := CancellationCard new.
+	
+
+	self should: [ aGame play: aCard from: aSpaceship targeting: (SquareSelection at: 30). ] raise: Error withMessage: 'Selected square is out of board bounds'.
+]

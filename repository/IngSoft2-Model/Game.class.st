@@ -254,9 +254,9 @@ Game >> nextTurn [
 ]
 
 { #category : 'action' }
-Game >> play: aCard from: aSpaceship targeting: anotherSpaceship [
+Game >> play: aCard from: aSpaceship targeting: aTarget [
 	self validateIf: aCard  canBePlayedBy: aSpaceship .
-	aCard from: aSpaceship withTarget: anotherSpaceship useIn: self.
+	aCard from: aSpaceship withTarget: aTarget useIn: self.
 	(self dataFor: aSpaceship) removeCardFromHand: aCard. 
 	
 ]
@@ -346,6 +346,7 @@ Game >> skipTurn [
 
 { #category : 'accessing' }
 Game >> squareAt: aSquareNumber [
+	self validateIfSquareSelectionIsWithinBoundsFor: aSquareNumber.
 	^board squareAt: aSquareNumber 
 ]
 
@@ -377,6 +378,13 @@ Game >> validateIf: aCard canBePlayedBy: aSpaceship [
 	
 	spaceshipData := self dataFor: aSpaceship.
 	spaceshipData validateThatSpaceshipHasCard: aCard .
+]
+
+{ #category : 'validation' }
+Game >> validateIfSquareSelectionIsWithinBoundsFor: aSquareNumber [
+	
+    (aSquareNumber < 1 or: [ aSquareNumber > board lengthInSquares ])
+		ifTrue: [ Error signal: 'Selected square is out of board bounds' ].
 ]
 
 { #category : 'validation' }

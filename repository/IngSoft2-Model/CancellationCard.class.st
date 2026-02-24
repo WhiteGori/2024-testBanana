@@ -29,5 +29,6 @@ Class {
 
 { #category : 'action' }
 CancellationCard >> from: aSpaceship withTarget: aCard useIn: aGame [ 
+	aCard cancelIn: aGame.
 	aGame removeActiveCard: aCard.
 ]
