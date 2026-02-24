@@ -24,7 +24,8 @@ Class {
 	#name : 'AtomicBombEffect',
 	#superclass : 'Object',
 	#instVars : [
-		'myPosition'
+		'myPosition',
+		'targeting'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -38,7 +39,12 @@ AtomicBombEffect class >> isIn: aPosition [
 
 { #category : 'action' }
 AtomicBombEffect >> applyIn: aGame for: aSpaceship [ 
-	aGame detonateAtomicBomb .
+	
+	|target|
+	
+	target := targeting targets: aSpaceship in: aGame.
+	target do: [ :spaceship | aGame move: spaceship to: 1 ].
+	target do: [ :spaceship | aGame decreaseShieldByOneOf: spaceship ].
 	
 
 ]
@@ -46,6 +52,7 @@ AtomicBombEffect >> applyIn: aGame for: aSpaceship [
 { #category : 'initialization' }
 AtomicBombEffect >> initializeIsIn: aPosition [ 
 
+targeting  := AllTarget new.
 myPosition := aPosition.
 ]
 
@@ -54,6 +61,11 @@ AtomicBombEffect >> position [
 
 ^myPosition 
 
+]
+
+{ #category : 'action' }
+AtomicBombEffect >> reverseTargeting [
+	targeting:= targeting reverse.
 ]
 
 { #category : 'initialization' }

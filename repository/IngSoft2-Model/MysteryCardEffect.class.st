@@ -24,7 +24,8 @@ Class {
 	#name : 'MysteryCardEffect',
 	#superclass : 'Object',
 	#instVars : [
-		'myPosition'
+		'myPosition',
+		'targeting'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -39,13 +40,17 @@ MysteryCardEffect class >> isIn: aPosition [
 { #category : 'action' }
 MysteryCardEffect >> applyIn: aGame for: aSpaceship [
 
-aGame addRandomCardFor: aSpaceship .
+	|target|
+	
+	target := targeting targets: aSpaceship in: aGame.
+	target do: [ :spaceship | aGame addRandomCardFor: spaceship ].
 
 ]
 
 { #category : 'initialization' }
 MysteryCardEffect >> initializeIsIn: aPosition [ 
 
+targeting := LandingShipTarget new.
 myPosition := aPosition.
 ]
 
@@ -53,6 +58,11 @@ myPosition := aPosition.
 MysteryCardEffect >> position [
 
 ^myPosition 
+]
+
+{ #category : 'action' }
+MysteryCardEffect >> reverseTargeting [
+	targeting:= targeting reverse.
 ]
 
 { #category : 'initialization' }

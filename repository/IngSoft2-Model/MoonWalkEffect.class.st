@@ -29,7 +29,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'someSquares',
-		'myPosition'
+		'myPosition',
+		'targeting'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -50,13 +51,19 @@ MoonWalkEffect class >> isIn: aPosition moves: aNumberOfSquares [
 { #category : 'action' }
 MoonWalkEffect >> applyIn: aGame for: aSpaceship [ 
 	
-	aGame applyMoonwalkFor: aSpaceship movingOthersBack: someSquares  .
+	|target|
+	
+	target := targeting targets: aSpaceship in: aGame.
+	target do: [ :spaceship | aGame make: spaceship  move: someSquares negated ].
+	"aGame applyMoonwalkFor: aSpaceship movingOthersBack: someSquares  ."
+	
 	
 
 ]
 
 { #category : 'initialization' }
 MoonWalkEffect >> initializeIsIn: aSquare moves: aNumberOfSquares [ 
+	targeting := AllButLandingShipTarget new.
 	someSquares  := aNumberOfSquares .
 	myPosition := aSquare 
 ]
@@ -66,4 +73,9 @@ MoonWalkEffect >> position [
 
 ^myPosition 
 
+]
+
+{ #category : 'action' }
+MoonWalkEffect >> reverseTargeting [
+	targeting:= targeting reverse.
 ]

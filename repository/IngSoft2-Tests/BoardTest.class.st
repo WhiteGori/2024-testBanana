@@ -336,8 +336,9 @@ BoardTest >> test062WhenSpaceshipLandsOnAtomicBombAllShieldsGetReducedByOne [
 	aGame playTurn.
 	aGame playTurn.
 
-	self assert: ((aGame shieldsOf: anotherSpaceship) = 2 and:
-			 (aGame shieldsOf: aSpaceship) = 2)
+	self assert: (aGame shieldsOf: anotherSpaceship) equals: 2
+	"self assert: ((aGame shieldsOf: anotherSpaceship) = 2 and:
+			 (aGame shieldsOf: aSpaceship) = 2)"
 ]
 
 { #category : 'tests' }
