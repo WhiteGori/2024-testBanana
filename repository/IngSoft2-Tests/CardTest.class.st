@@ -1607,3 +1607,171 @@ CardTest >> test150WhenReversePolarityCardIsPlayedOnMysteryEffectSquareAllOtherS
 	
 	self assert: (((aGame dataFor: anotherSpaceship) cards) size) equals: 3.
 ]
+
+{ #category : 'tests' }
+CardTest >> test151WhenRepeatCardIsPlayedAfterAnEffectReversedByReversePolarityCardThenRepeatedEffectIsReversed [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog randomCardsfor: aSpaceship )
+		                  with: (SpaceshipLog
+				                   for: anotherSpaceship
+				                   withDeck:
+				                   (OrderedCollection
+					                    with: RepeatCard
+					                    with: ReversePolarityCard )).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects:
+		          (OrderedCollection with: (BlackholeEffect isIn: 5))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 9 with: 4).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := RepeatCard new.
+	anotherCard := ReversePolarityCard new.
+	
+	aGame playTurn.
+	aGame play: anotherCard from: anotherSpaceship targeting: (SquareSelection at: 5).
+	aGame playTurn.
+	aGame play: aCard from: anotherSpaceship targeting: anotherSpaceship.
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 2
+]
+
+{ #category : 'tests' }
+CardTest >> test152WhenReversePolarityCardIsPlayedAfterAnEffectIsAppliedThenRepeatCardDoesNotRepeatAReversedEffect [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: RepeatCard
+					                    with: ReversePolarityCard ))
+		                  with: (SpaceshipLog
+				                   for: anotherSpaceship
+				                   withDeck:
+				                   (OrderedCollection
+					                    with: RepeatCard
+					                    with: ReversePolarityCard )).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects:
+		          (OrderedCollection with: (BlackholeEffect isIn: 12))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 9 with: 11).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := RepeatCard new.
+	anotherCard := ReversePolarityCard new.
+	
+	aGame playTurn.
+	aGame playTurn.
+	aGame play: anotherCard from: aSpaceship targeting: (SquareSelection at: 12).
+	aGame play: aCard from: anotherSpaceship targeting: anotherSpaceship.
+
+	self assert: (aGame positionOf: anotherSpaceship ) equals: 4
+]
+
+{ #category : 'tests' }
+CardTest >> test153WhenRedoCardCanCopyReversePolarityAndApllyItToADifferentTarget [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: RedoCard 
+					                    with: ReversePolarityCard ))
+		                  with: (SpaceshipLog
+				                   for: anotherSpaceship
+				                   withDeck:
+				                   (OrderedCollection
+					                    with: RedoCard
+					                    with: ReversePolarityCard )).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 12) with: (MoonWalkEffect isIn: 16 moves: 3))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 9 with: 11 with: 10).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := ReversePolarityCard new.
+	anotherCard := RedoCard new.
+	
+	aGame play: aCard from: aSpaceship targeting: (SquareSelection at: 12).
+	aGame playTurn.
+	aGame play: anotherCard from: anotherSpaceship targeting: (SquareSelection at: 16).
+	aGame playTurn .
+	aGame playTurn .
+	
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 13
+]
+
+{ #category : 'tests' }
+CardTest >> test154WhenReversePolarityCardIsPLayedOnNullEffectSquareNothingHappens [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: RedoCard 
+					                    with: ReversePolarityCard ))
+		                  with: (SpaceshipLog
+				                   for: anotherSpaceship
+				                   withDeck:
+				                   (OrderedCollection
+					                    with: RedoCard
+					                    with: ReversePolarityCard )).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: nil
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := ReversePolarityCard new.
+	anotherCard := RedoCard new.
+	
+	aGame play: aCard from: aSpaceship targeting: (SquareSelection at: 5).
+	aGame playTurn.
+	
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 5
+]

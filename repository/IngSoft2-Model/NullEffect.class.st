@@ -56,6 +56,10 @@ NullEffect >> position [
 ^myPosition 
 ]
 
+{ #category : 'action' }
+NullEffect >> reverseTargeting [
+]
+
 { #category : 'initialization' }
 NullEffect >> setPosition: aPosition [
 myPosition := aPosition.
