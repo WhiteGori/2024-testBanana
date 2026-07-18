@@ -1847,3 +1847,81 @@ CardTest >> test156SquareSelectionNumberCannotBeOutOfBounds [
 
 	self should: [ aGame play: aCard from: aSpaceship targeting: (SquareSelection at: 30). ] raise: Error withMessage: 'Selected square is out of board bounds'.
 ]
+
+{ #category : 'tests' }
+CardTest >> test157WhenReversalCardIsPlayedOnSpeedCardSpaceshipThrowDecreasesByOne [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: SpeedCard 
+					                    with: ReversalCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := SpeedCard new.
+	anotherCard := ReversalCard new.
+	
+
+	aGame play: aCard from: aSpaceship targeting: aSpaceship .
+	aGame play: anotherCard from: aSpaceship targeting: aCard .
+	aGame playTurn.
+	
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 4
+]
+
+{ #category : 'tests' }
+CardTest >> test158WhenReversalCardIsPlayedOnReverseSpeedCardSpaceshipThrowIncreasesByOne [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard yetAnotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: SpeedCard 
+					                    with: ReversalCard with: ReversalCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := SpeedCard new.
+	anotherCard := ReversalCard new.
+	yetAnotherCard := ReversalCard new.
+	
+
+	aGame play: aCard from: aSpaceship targeting: aSpaceship .
+	aGame play: anotherCard from: aSpaceship targeting: aCard .
+	aGame play: yetAnotherCard from: aSpaceship targeting: aCard .
+	aGame playTurn.
+	
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 6
+]

@@ -40,6 +40,12 @@ AccelerationCard >> reinforce: aSpaceship in: aGame [
 ^0.
 ]
 
+{ #category : 'dispatching' }
+AccelerationCard >> targets [
+
+	^ nil
+]
+
 { #category : 'validation' }
 AccelerationCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
 ]

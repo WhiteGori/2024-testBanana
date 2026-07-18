@@ -288,6 +288,12 @@ Game >> rechargeShieldsOf: aSpaceship [
 	(self dataFor: aSpaceship ) rechargeShields
 ]
 
+{ #category : 'setter' }
+Game >> recordLastCardPlayed: aCard [
+
+	lastTypeOfCardPlayed := aCard.
+]
+
 { #category : 'action' }
 Game >> redoLastCardPlayedFor: aSpaceship withTarget: aTarget [
 	| aCard |
@@ -321,6 +327,14 @@ Game >> repeatLastEffectFor: aSpaceship [
 	
 	
 
+]
+
+{ #category : 'replacing' }
+Game >> replaceActiveCard: aCard with: anotherCard [
+	
+	aCard cancelIn: self.
+	self removeActiveCard: aCard .
+	self addActiveCard: anotherCard .
 ]
 
 { #category : 'adding' }

@@ -50,6 +50,12 @@ aSpaceship = ally ifTrue: [ ^aGame throwDice ].
 ^0.
 ]
 
+{ #category : 'dispatching' }
+MercenaryCard >> targets [ 
+
+	^ally
+]
+
 { #category : 'validation' }
 MercenaryCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
 	aSpaceship = anotherSpaceship ifTrue: [ Error signal: 'A spaceship cannot be its own mercenary' ]

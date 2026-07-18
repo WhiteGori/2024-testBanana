@@ -24,7 +24,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : 'SpeedCard',
+	#name : 'ReverseSpeedCard',
 	#superclass : 'PermanentCard',
 	#instVars : [
 		'target'
@@ -34,66 +34,66 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-SpeedCard class >> forTarget: aSpaceship [
+ReverseSpeedCard class >> forTarget: aSpaceship [
 
 	^self new initializeForTarget: aSpaceship
 ]
 
 { #category : 'action' }
-SpeedCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
+ReverseSpeedCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	target := anotherSpaceship .
 	aGame addActiveCard: self.
 ]
 
 { #category : 'initialization' }
-SpeedCard >> initializeForTarget: aSpaceship [
+ReverseSpeedCard >> initializeForTarget: aSpaceship [
 
 	target := aSpaceship .
 	^self.
 ]
 
 { #category : 'testing' }
-SpeedCard >> is: aSpaceship anAllyOf: anotherSpaceship [
+ReverseSpeedCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 
 ^false.
 ]
 
 { #category : 'accessing' }
-SpeedCard >> mercenary [
+ReverseSpeedCard >> mercenary [
 ^0
 ]
 
 { #category : 'playing' }
-SpeedCard >> playOn: aSpaceship [
+ReverseSpeedCard >> playOn: aSpaceship [
 | cardModifier |
 cardModifier:=0.
-aSpaceship = target ifTrue:[cardModifier:= 1].
+aSpaceship = target ifTrue:[cardModifier:= -1].
 ^cardModifier
 ]
 
 { #category : 'action' }
-SpeedCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
+ReverseSpeedCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
 ]
 
 { #category : 'action' }
-SpeedCard >> reinforce: aSpaceship in: aGame [
+ReverseSpeedCard >> reinforce: aSpaceship in: aGame [
 
 ^0.
 ]
 
 { #category : 'as yet unclassified' }
-SpeedCard >> reverse [ 
+ReverseSpeedCard >> reverse [ 
 
-	^ReverseSpeedCard forTarget: target 
+	^SpeedCard forTarget: target 
 ]
 
 { #category : 'dispatching' }
-SpeedCard >> targets [ 
+ReverseSpeedCard >> targets [ 
 
 	^target
 ]
 
 { #category : 'validation' }
-SpeedCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
+ReverseSpeedCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
 ]

@@ -49,6 +49,12 @@ ReversePolarityCard >> reinforce: aSpaceship in: aGame [
 ^0.
 ]
 
+{ #category : 'dispatching' }
+ReversePolarityCard >> targets [
+
+	^targetSquare
+]
+
 { #category : 'validation' }
 ReversePolarityCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
 ]
