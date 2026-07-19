@@ -1879,7 +1879,7 @@ CardTest >> test157WhenReversalCardIsPlayedOnSpeedCardSpaceshipThrowDecreasesByO
 	
 
 	aGame play: aCard from: aSpaceship targeting: aSpaceship .
-	aGame play: anotherCard from: aSpaceship targeting: aCard .
+	aGame play: anotherCard from: aSpaceship targeting:( ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ).
 	aGame playTurn.
 	
 
@@ -1918,10 +1918,44 @@ CardTest >> test158WhenReversalCardIsPlayedOnReverseSpeedCardSpaceshipThrowIncre
 	
 
 	aGame play: aCard from: aSpaceship targeting: aSpaceship .
-	aGame play: anotherCard from: aSpaceship targeting: aCard .
-	aGame play: yetAnotherCard from: aSpaceship targeting: aCard .
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ).
+	aGame play: yetAnotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: ReverseSpeedCard ) .
 	aGame playTurn.
 	
 
 	self assert: (aGame positionOf: aSpaceship ) equals: 6
+]
+
+{ #category : 'tests' }
+CardTest >> test159ReversalCardCannotBePlayedOnANonActiveCard [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: SpeedCard 
+					                    with: ReversalCard with: ReversalCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := ReversalCard new.
+	
+
+	
+
+	self should: [aGame play: aCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard )] raise: Error withMessage: 'No active card of that type for that spaceship'
 ]

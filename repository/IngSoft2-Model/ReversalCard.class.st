@@ -6,10 +6,11 @@ Class {
 }
 
 { #category : 'instance creation' }
-ReversalCard >> from: aSpaceship withTarget: aCard useIn: aGame [
+ReversalCard >> from: aSpaceship withTarget: aSelection useIn: aGame [
 	
-	|reverseCard |
+	|activeCard reverseCard |
 	
-	reverseCard := aCard reverse.
-	aGame replaceActiveCard: aCard with: reverseCard.
+	activeCard :=  aSelection activeCardIn: aGame . 
+	reverseCard := activeCard reverse.
+	aGame replaceActiveCard: activeCard with: reverseCard.
 ]

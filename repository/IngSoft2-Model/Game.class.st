@@ -21,6 +21,12 @@ Game class >> playedBy: someSpaceships on: aBoard throwing: someDice wonAfter: a
 	^self new initializePlayedBy: someSpaceships  on: aBoard  throwing: someDice wonAfter: aNumberOfLaps .
 ]
 
+{ #category : 'accessing' }
+Game >> activeCardFor: aSpaceship ofType: aCardClass [
+
+	^activeCards detect: [:aCard | aCard class = aCardClass and: (aCard targets = aSpaceship ) ] ifNone: [Error signal: 'No active card of that type for that spaceship' ]
+]
+
 { #category : 'adding' }
 Game >> addActiveCard: aCard [
 
