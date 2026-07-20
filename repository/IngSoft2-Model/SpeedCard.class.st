@@ -73,11 +73,11 @@ aSpaceship = target ifTrue:[cardModifier:= 1].
 ]
 
 { #category : 'action' }
-SpeedCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
+SpeedCard >> reduceShieldsOfAllyOf: aSpaceship against: anOpponent in: aGame [
 ]
 
 { #category : 'action' }
-SpeedCard >> reinforce: aSpaceship in: aGame [
+SpeedCard >> reinforce: aSpaceship against: anOpponent in: aGame [
 
 ^0.
 ]

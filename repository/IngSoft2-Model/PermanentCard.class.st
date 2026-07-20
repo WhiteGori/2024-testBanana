@@ -41,7 +41,7 @@ PermanentCard >> from: aSpaceship withTarget: aTarget useIn: aGame [
 { #category : 'as yet unclassified' }
 PermanentCard >> reverse [
 
- ^self subclassResponsibility
+ ^ReverseAccelerationCard new
 ]
 
 { #category : 'dispatching' }

@@ -24,7 +24,7 @@ Game class >> playedBy: someSpaceships on: aBoard throwing: someDice wonAfter: a
 { #category : 'accessing' }
 Game >> activeCardFor: aSpaceship ofType: aCardClass [
 
-	^activeCards detect: [:aCard | aCard class = aCardClass and: (aCard targets = aSpaceship ) ] ifNone: [Error signal: 'No active card of that type for that spaceship' ]
+	^activeCards detect: [:aCard | aCard class = aCardClass and: (aSpaceship isNil or: (aCard targets = aSpaceship )) ] ifNone: [Error signal: 'No active card of that type for that spaceship' ]
 ]
 
 { #category : 'adding' }
@@ -58,16 +58,17 @@ Game >> applyMoonwalkFor: aSpaceship  movingOthersBack: someSquares [
 { #category : 'action' }
 Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
-	| loser resultForFirstPlayer resultForSecondPlayer |
+	| loser winner resultForFirstPlayer resultForSecondPlayer |
 	resultForFirstPlayer := self throwDice.
-	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship in: self) + resultForFirstPlayer. ].
+	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship against: aSpaceship2 in: self) + resultForFirstPlayer. ].
 	resultForSecondPlayer := self throwDice.
-	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 in: self) + resultForSecondPlayer. ].
+	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 against: aSpaceship in: self) + resultForSecondPlayer. ].
 
 	loser := resultForFirstPlayer > resultForSecondPlayer
 		         ifTrue: [ aSpaceship2 ]
 		         ifFalse: [ aSpaceship ].
-	self reducePartyShieldsByOneOf: loser
+	winner := loser = aSpaceship ifTrue: [ aSpaceship2 ] ifFalse: [ aSpaceship ].
+	self reducePartyShieldsByOneOf: loser against: winner
 ]
 
 { #category : 'action' }
@@ -310,9 +311,9 @@ Game >> redoLastCardPlayedFor: aSpaceship withTarget: aTarget [
 ]
 
 { #category : 'action' }
-Game >> reducePartyShieldsByOneOf: loser [
+Game >> reducePartyShieldsByOneOf: loser against: winner [
 	
-	activeCards  do: [ :card | card reduceShieldsOfAllyOf: loser in: self ].
+	activeCards  do: [ :card | card reduceShieldsOfAllyOf: loser against: winner in: self ].
 	(self dataFor: loser) decreaseShieldsByOne . 
 	(self dataFor: loser) moveTo: 1
 	
