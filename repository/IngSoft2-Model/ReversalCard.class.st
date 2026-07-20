@@ -13,4 +13,5 @@ ReversalCard >> from: aSpaceship withTarget: aSelection useIn: aGame [
 	activeCard :=  aSelection activeCardIn: aGame . 
 	reverseCard := activeCard reverse.
 	aGame replaceActiveCard: activeCard with: reverseCard.
+	aGame recordLastCardPlayed: ReversalCard.
 ]

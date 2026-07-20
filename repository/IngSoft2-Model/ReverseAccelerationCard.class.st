@@ -38,6 +38,12 @@ ReverseAccelerationCard >> reinforce: aSpaceship against: anOpponent in: aGame [
 ^0.
 ]
 
+{ #category : 'as yet unclassified' }
+ReverseAccelerationCard >> reverse [ 
+
+ ^AccelerationCard new
+]
+
 { #category : 'dispatching' }
 ReverseAccelerationCard >> targets [
 
