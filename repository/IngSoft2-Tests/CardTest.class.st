@@ -482,7 +482,7 @@ CardTest >> test095CancellationCardCanRemoveActiveMercenaryCards [
 	anotherCard := CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: anotherSpaceship.
 	aGame playTurn.
-	aGame play: anotherCard from: anotherSpaceship targeting: aCard.
+	aGame play: anotherCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: MercenaryCard).
 	aGame playTurn.
 	self assert: ((aGame positionOf: aSpaceship) = 1 and:
 			 (aGame positionOf: anotherSpaceship) = 4)
@@ -511,7 +511,7 @@ CardTest >> test096CancellationCardCanRemoveActiveSpeedCards [
 	aCard := SpeedCard new.
 	anotherCard := CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: aSpaceship.
-	aGame play: anotherCard from: aSpaceship targeting: aCard.
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ).
 	aGame playTurn.
 	self assert: (aGame positionOf: aSpaceship) equals: 4
 ]
@@ -540,13 +540,13 @@ CardTest >> test097CancellationCardCanNotBePlayedOnACardThatIsNotActive [
 	anotherCard := CancellationCard new.
 	yetAnotherCard:= CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: aSpaceship.
-	aGame play: anotherCard from: aSpaceship targeting: aCard.
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ).
 
 	self
 		should: [
-		aGame play: yetAnotherCard from: aSpaceship targeting: aCard ]
+		aGame play: yetAnotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ) ]
 		raise: Error
-		withMessage: 'Selected card is not active'
+		withMessage: 'No active card of that type for that spaceship'
 ]
 
 { #category : 'tests' }
@@ -603,7 +603,7 @@ CardTest >> test099InstantaneousCardCanBePlayedOutOfTurn [
 	aCard := MercenaryCard new.
 	anotherCard := CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: anotherSpaceship.
-	aGame play: anotherCard from: anotherSpaceship targeting: aCard.
+	aGame play: anotherCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: MercenaryCard).
 	aGame playTurn.
 	self assert: (aGame positionOf: aSpaceship) equals: 4
 ]
@@ -1360,8 +1360,8 @@ CardTest >> test128WhenRedoCardCopiesCancellationCardThenThrowIncreaseIsCancelle
 	
 	aGame play: aSpeedCard   from: aSpaceship  targeting: aSpaceship .
 	aGame play: anotherSpeedCard  from: aSpaceship  targeting: aSpaceship .
-	aGame play: aCancellationCard  from: anotherSpaceship  targeting: aSpeedCard .
-	aGame play: aRedoCard  from: anotherSpaceship  targeting: anotherSpeedCard .
+	aGame play: aCancellationCard  from: anotherSpaceship  targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ) .
+	aGame play: aRedoCard  from: anotherSpaceship  targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ) .
 	aGame playTurn .
 	
 	self assert: (aGame positionOf: aSpaceship ) equals: 4
@@ -1432,7 +1432,7 @@ CardTest >> test130CancellationCardCanRemoveActiveAccelerationCards [
 	aCard := AccelerationCard  new.
 	anotherCard := CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: aSpaceship.
-	aGame play: anotherCard from: aSpaceship targeting: aCard.
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: nil ofType: AccelerationCard ).
 	aGame playTurn.
 	aGame playTurn.
 	self assert: (((aGame positionOf: aSpaceship) = 4) and: ((aGame positionOf: anotherSpaceship) = 5) )
@@ -1808,7 +1808,7 @@ CardTest >> test155WhenCancellationCardRemovesReversePolarityCardReversedEffectI
 	aGame play: aCard from: aSpaceship targeting: (SquareSelection at: 10).
 	aGame playTurn.
 	aGame playTurn.
-	aGame play: anotherCard from: aSpaceship targeting: aCard .
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: (SquareSelection at: 10) ofType: ReversePolarityCard ) .
 	aGame playTurn.
 	
 
