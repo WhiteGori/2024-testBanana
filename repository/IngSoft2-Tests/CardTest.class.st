@@ -2423,3 +2423,42 @@ CardTest >> test172WhenASecondConsecutiveRedoCardIsPlayedItStillCopiesReversalCa
 
 	self assert: (aGame positionOf: aSpaceship) equals: 5.
 ]
+
+{ #category : 'tests' }
+CardTest >> test173ReverseMercenaryBattlesItsAllyWhenTheyShareASquare [
+
+	| aGame aSpaceship anotherSpaceship aBoard aDie aMercenaryCard aReversalCard spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		with: (SpaceshipLog for: aSpaceship withDeck: (OrderedCollection with: MercenaryCard with: ReversalCard))
+		with: (SpaceshipLog randomCardsfor: anotherSpaceship).
+
+	aBoard := self
+		createBoardOf: 8
+		distance: (ParsecDistance of: 1)
+		withEffects: nil
+		wormholeBeginsAt: 7
+		andEndsAt: 8.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 3 with: 2 with: 3).
+
+	aGame := Game
+		playedBy: spaceshipsData
+		on: aBoard
+		throwing: (OrderedCollection with: aDie)
+		wonAfter: 3.
+
+	aMercenaryCard := MercenaryCard new.
+	aReversalCard := ReversalCard new.
+
+	aGame play: aMercenaryCard from: aSpaceship targeting: anotherSpaceship.
+	aGame play: aReversalCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: MercenaryCard).
+
+	aGame playTurn.
+	aGame playTurn. 
+
+	self assert: (aGame positionOf: aSpaceship) equals: 4.
+	self assert: (aGame positionOf: anotherSpaceship) equals: 1.
+	self assert: (aGame shieldsOf: anotherSpaceship) equals: 2.
+]

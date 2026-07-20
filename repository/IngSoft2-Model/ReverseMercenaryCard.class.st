@@ -36,7 +36,7 @@ ReverseMercenaryCard >> initializeForAlly: anAlly mercenary: aMercenary [
 { #category : 'testing' }
 ReverseMercenaryCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 
-^((aSpaceship = ally) and: anotherSpaceship = mercenary) or: ((aSpaceship = mercenary ) and: anotherSpaceship = ally)
+^false
 ]
 
 { #category : 'accessing' }
@@ -53,18 +53,18 @@ ReverseMercenaryCard >> playOn: aSpaceship [
 { #category : 'action' }
 ReverseMercenaryCard >> reduceShieldsOfAllyOf: aSpaceship against: anOpponent in: aGame [
 
-anOpponent =ally ifTrue: [ aGame decreaseShieldByOneOf:  mercenary. ].
+(anOpponent = ally and: [ aSpaceship ~= mercenary ]) ifTrue: [ aGame decreaseShieldByOneOf: mercenary ]
 ]
 
 { #category : 'action' }
 ReverseMercenaryCard >> reinforce: aSpaceship against: anOpponent in: aGame [
 
 
-anOpponent = ally ifTrue: [ ^aGame throwDice ].
+(anOpponent = ally and: [ aSpaceship ~= mercenary ]) ifTrue: [ ^aGame throwDice ].
 ^0.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'converting' }
 ReverseMercenaryCard >> reverse [ 
 	^MercenaryCard forAlly: ally mercenary: mercenary
 ]

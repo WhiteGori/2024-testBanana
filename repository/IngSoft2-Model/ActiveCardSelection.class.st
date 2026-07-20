@@ -22,13 +22,13 @@ ActiveCardSelection class >> affecting: aSpaceship ofType: aCardClass mercenary:
 	^self new affecting: aSpaceship ofType: aCardClass mercenary: aMercenaryShip
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ActiveCardSelection >> activeCardIn: aGame [
 
 	^aGame activeCardFor: affectedSpaceship ofType: cardClass mercenary: mercenary.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 ActiveCardSelection >> affecting: aSpaceship ofType: aCardClass mercenary: aMercenaryShip [
 	
 	affectedSpaceship := aSpaceship .

@@ -64,7 +64,7 @@ aSpaceship = ally ifTrue: [ ^aGame throwDice ].
 ^0.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'converting' }
 MercenaryCard >> reverse [ 
 	^ReverseMercenaryCard forAlly: ally mercenary: mercenary
 ]
