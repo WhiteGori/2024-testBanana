@@ -27,6 +27,16 @@ Game >> activeCardFor: aSpaceship ofType: aCardClass [
 	^activeCards detect: [:aCard | aCard class = aCardClass and: (aSpaceship isNil or: (aCard targets = aSpaceship )) ] ifNone: [Error signal: 'No active card of that type for that spaceship' ]
 ]
 
+{ #category : 'accessing' }
+Game >> activeCardFor: aSpaceship ofType: aCardClass mercenary: aMercenaryShip [
+
+	^activeCards detect: [:aCard | 
+		aCard class = aCardClass 
+		and: ((aSpaceship isNil or: (aCard targets = aSpaceship )) 
+		and: ( aMercenaryShip isNil or: ( aCard mercenary = aMercenaryShip ) ))
+		] ifNone: [Error signal: 'No active card of that type for that spaceship' ]
+]
+
 { #category : 'adding' }
 Game >> addActiveCard: aCard [
 
