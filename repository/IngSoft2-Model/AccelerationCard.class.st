@@ -29,15 +29,25 @@ AccelerationCard >> playOn: aSpaceship [
 ]
 
 { #category : 'action' }
-AccelerationCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
-
-
+AccelerationCard >> reduceShieldsOfAllyOf: aSpaceship against: anOpponent in: aGame [
 ]
 
 { #category : 'action' }
-AccelerationCard >> reinforce: aSpaceship in: aGame [
+AccelerationCard >> reinforce: aSpaceship against: anOpponent in: aGame [
 
 ^0.
+]
+
+{ #category : 'converting' }
+AccelerationCard >> reverse [ 
+
+ ^ReverseAccelerationCard new
+]
+
+{ #category : 'dispatching' }
+AccelerationCard >> targets [
+
+	^ nil
 ]
 
 { #category : 'validation' }

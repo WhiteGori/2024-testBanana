@@ -21,6 +21,22 @@ Game class >> playedBy: someSpaceships on: aBoard throwing: someDice wonAfter: a
 	^self new initializePlayedBy: someSpaceships  on: aBoard  throwing: someDice wonAfter: aNumberOfLaps .
 ]
 
+{ #category : 'accessing' }
+Game >> activeCardFor: aSpaceship ofType: aCardClass [
+
+	^activeCards detect: [:aCard | aCard class = aCardClass and: (aSpaceship isNil or: (aCard targets = aSpaceship )) ] ifNone: [Error signal: 'No active card of that type for that spaceship' ]
+]
+
+{ #category : 'accessing' }
+Game >> activeCardFor: aSpaceship ofType: aCardClass mercenary: aMercenaryShip [
+
+	^activeCards detect: [:aCard | 
+		aCard class = aCardClass 
+		and: ((aSpaceship isNil or: (aCard targets = aSpaceship )) 
+		and: ( aMercenaryShip isNil or: ( aCard mercenary = aMercenaryShip ) ))
+		] ifNone: [Error signal: 'No active card of that type for that spaceship' ]
+]
+
 { #category : 'adding' }
 Game >> addActiveCard: aCard [
 
@@ -52,16 +68,17 @@ Game >> applyMoonwalkFor: aSpaceship  movingOthersBack: someSquares [
 { #category : 'action' }
 Game >> battleBetween: aSpaceship and: aSpaceship2 [
 
-	| loser resultForFirstPlayer resultForSecondPlayer |
+	| loser winner resultForFirstPlayer resultForSecondPlayer |
 	resultForFirstPlayer := self throwDice.
-	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship in: self) + resultForFirstPlayer. ].
+	activeCards  do: [ :card | resultForFirstPlayer := (card reinforce: aSpaceship against: aSpaceship2 in: self) + resultForFirstPlayer. ].
 	resultForSecondPlayer := self throwDice.
-	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 in: self) + resultForSecondPlayer. ].
+	activeCards  do: [ :card | resultForSecondPlayer := (card reinforce: aSpaceship2 against: aSpaceship in: self) + resultForSecondPlayer. ].
 
 	loser := resultForFirstPlayer > resultForSecondPlayer
 		         ifTrue: [ aSpaceship2 ]
 		         ifFalse: [ aSpaceship ].
-	self reducePartyShieldsByOneOf: loser
+	winner := loser = aSpaceship ifTrue: [ aSpaceship2 ] ifFalse: [ aSpaceship ].
+	self reducePartyShieldsByOneOf: loser against: winner
 ]
 
 { #category : 'action' }
@@ -288,6 +305,12 @@ Game >> rechargeShieldsOf: aSpaceship [
 	(self dataFor: aSpaceship ) rechargeShields
 ]
 
+{ #category : 'setter' }
+Game >> recordLastCardPlayed: aCard [
+
+	lastTypeOfCardPlayed := aCard.
+]
+
 { #category : 'action' }
 Game >> redoLastCardPlayedFor: aSpaceship withTarget: aTarget [
 	| aCard |
@@ -298,9 +321,9 @@ Game >> redoLastCardPlayedFor: aSpaceship withTarget: aTarget [
 ]
 
 { #category : 'action' }
-Game >> reducePartyShieldsByOneOf: loser [
+Game >> reducePartyShieldsByOneOf: loser against: winner [
 	
-	activeCards  do: [ :card | card reduceShieldsOfAllyOf: loser in: self ].
+	activeCards  do: [ :card | card reduceShieldsOfAllyOf: loser against: winner in: self ].
 	(self dataFor: loser) decreaseShieldsByOne . 
 	(self dataFor: loser) moveTo: 1
 	
@@ -321,6 +344,14 @@ Game >> repeatLastEffectFor: aSpaceship [
 	
 	
 
+]
+
+{ #category : 'replacing' }
+Game >> replaceActiveCard: aCard with: anotherCard [
+	
+	aCard cancelIn: self.
+	self removeActiveCard: aCard .
+	self addActiveCard: anotherCard .
 ]
 
 { #category : 'adding' }

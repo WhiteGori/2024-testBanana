@@ -1,5 +1,5 @@
 Class {
-	#name : 'MercenaryCard',
+	#name : 'ReverseMercenaryCard',
 	#superclass : 'PermanentCard',
 	#instVars : [
 		'ally',
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'initialization' }
-MercenaryCard class >> forAlly: anAlly mercenary: aMercenary [
+ReverseMercenaryCard class >> forAlly: anAlly mercenary: aMercenary [
 	
 	^self new initializeForAlly: anAlly mercenary: aMercenary
 ]
 
 { #category : 'action' }
-MercenaryCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
+ReverseMercenaryCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 	self validateIfCardCanBePlayedBy: aSpaceship in: aGame.
 	self validateAllianceBetween: aSpaceship and: anotherSpaceship .
 	aGame validateMercenaryAvailability: anotherSpaceship .
@@ -26,7 +26,7 @@ MercenaryCard >> from: aSpaceship withTarget: anotherSpaceship useIn: aGame [
 ]
 
 { #category : 'initialization' }
-MercenaryCard >> initializeForAlly: anAlly mercenary: aMercenary [
+ReverseMercenaryCard >> initializeForAlly: anAlly mercenary: aMercenary [
 
 	ally := anAlly.
 	mercenary := aMercenary.
@@ -34,48 +34,48 @@ MercenaryCard >> initializeForAlly: anAlly mercenary: aMercenary [
 ]
 
 { #category : 'testing' }
-MercenaryCard >> is: aSpaceship anAllyOf: anotherSpaceship [
+ReverseMercenaryCard >> is: aSpaceship anAllyOf: anotherSpaceship [
 
-^((aSpaceship = ally) and: anotherSpaceship = mercenary) or: ((aSpaceship = mercenary ) and: anotherSpaceship = ally)
+^false
 ]
 
 { #category : 'accessing' }
-MercenaryCard >> mercenary [
+ReverseMercenaryCard >> mercenary [
 ^mercenary
 ]
 
 { #category : 'playing' }
-MercenaryCard >> playOn: aSpaceship [
+ReverseMercenaryCard >> playOn: aSpaceship [
 
 ^0.
 ]
 
 { #category : 'action' }
-MercenaryCard >> reduceShieldsOfAllyOf: aSpaceship against: anOpponent in: aGame [
+ReverseMercenaryCard >> reduceShieldsOfAllyOf: aSpaceship against: anOpponent in: aGame [
 
-aSpaceship =ally ifTrue: [ aGame decreaseShieldByOneOf:  mercenary. ].
+(anOpponent = ally and: [ aSpaceship ~= mercenary ]) ifTrue: [ aGame decreaseShieldByOneOf: mercenary ]
 ]
 
 { #category : 'action' }
-MercenaryCard >> reinforce: aSpaceship against: anOpponent in: aGame [
+ReverseMercenaryCard >> reinforce: aSpaceship against: anOpponent in: aGame [
 
 
-aSpaceship = ally ifTrue: [ ^aGame throwDice ].
+(anOpponent = ally and: [ aSpaceship ~= mercenary ]) ifTrue: [ ^aGame throwDice ].
 ^0.
 ]
 
 { #category : 'converting' }
-MercenaryCard >> reverse [ 
-	^ReverseMercenaryCard forAlly: ally mercenary: mercenary
+ReverseMercenaryCard >> reverse [ 
+	^MercenaryCard forAlly: ally mercenary: mercenary
 ]
 
 { #category : 'dispatching' }
-MercenaryCard >> targets [ 
+ReverseMercenaryCard >> targets [ 
 
 	^ally
 ]
 
 { #category : 'validation' }
-MercenaryCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
+ReverseMercenaryCard >> validateAllianceBetween: aSpaceship and: anotherSpaceship [
 	aSpaceship = anotherSpaceship ifTrue: [ Error signal: 'A spaceship cannot be its own mercenary' ]
 ]

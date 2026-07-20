@@ -38,6 +38,18 @@ PermanentCard >> from: aSpaceship withTarget: aTarget useIn: aGame [
 	self subclassResponsibility 
 ]
 
+{ #category : 'converting' }
+PermanentCard >> reverse [
+
+ ^self subclassResponsibility
+]
+
+{ #category : 'dispatching' }
+PermanentCard >> targets [
+
+	^self subclassResponsibility 
+]
+
 { #category : 'validation' }
 PermanentCard >> validateIfCardCanBePlayedBy: aSpaceship in: aGame [
 

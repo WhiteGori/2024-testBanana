@@ -482,7 +482,7 @@ CardTest >> test095CancellationCardCanRemoveActiveMercenaryCards [
 	anotherCard := CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: anotherSpaceship.
 	aGame playTurn.
-	aGame play: anotherCard from: anotherSpaceship targeting: aCard.
+	aGame play: anotherCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: MercenaryCard).
 	aGame playTurn.
 	self assert: ((aGame positionOf: aSpaceship) = 1 and:
 			 (aGame positionOf: anotherSpaceship) = 4)
@@ -511,7 +511,7 @@ CardTest >> test096CancellationCardCanRemoveActiveSpeedCards [
 	aCard := SpeedCard new.
 	anotherCard := CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: aSpaceship.
-	aGame play: anotherCard from: aSpaceship targeting: aCard.
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ).
 	aGame playTurn.
 	self assert: (aGame positionOf: aSpaceship) equals: 4
 ]
@@ -540,13 +540,13 @@ CardTest >> test097CancellationCardCanNotBePlayedOnACardThatIsNotActive [
 	anotherCard := CancellationCard new.
 	yetAnotherCard:= CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: aSpaceship.
-	aGame play: anotherCard from: aSpaceship targeting: aCard.
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ).
 
 	self
 		should: [
-		aGame play: yetAnotherCard from: aSpaceship targeting: aCard ]
+		aGame play: yetAnotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ) ]
 		raise: Error
-		withMessage: 'Selected card is not active'
+		withMessage: 'No active card of that type for that spaceship'
 ]
 
 { #category : 'tests' }
@@ -603,7 +603,7 @@ CardTest >> test099InstantaneousCardCanBePlayedOutOfTurn [
 	aCard := MercenaryCard new.
 	anotherCard := CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: anotherSpaceship.
-	aGame play: anotherCard from: anotherSpaceship targeting: aCard.
+	aGame play: anotherCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: MercenaryCard).
 	aGame playTurn.
 	self assert: (aGame positionOf: aSpaceship) equals: 4
 ]
@@ -1360,8 +1360,8 @@ CardTest >> test128WhenRedoCardCopiesCancellationCardThenThrowIncreaseIsCancelle
 	
 	aGame play: aSpeedCard   from: aSpaceship  targeting: aSpaceship .
 	aGame play: anotherSpeedCard  from: aSpaceship  targeting: aSpaceship .
-	aGame play: aCancellationCard  from: anotherSpaceship  targeting: aSpeedCard .
-	aGame play: aRedoCard  from: anotherSpaceship  targeting: anotherSpeedCard .
+	aGame play: aCancellationCard  from: anotherSpaceship  targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ) .
+	aGame play: aRedoCard  from: anotherSpaceship  targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ) .
 	aGame playTurn .
 	
 	self assert: (aGame positionOf: aSpaceship ) equals: 4
@@ -1432,7 +1432,7 @@ CardTest >> test130CancellationCardCanRemoveActiveAccelerationCards [
 	aCard := AccelerationCard  new.
 	anotherCard := CancellationCard new.
 	aGame play: aCard from: aSpaceship targeting: aSpaceship.
-	aGame play: anotherCard from: aSpaceship targeting: aCard.
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: nil ofType: AccelerationCard ).
 	aGame playTurn.
 	aGame playTurn.
 	self assert: (((aGame positionOf: aSpaceship) = 4) and: ((aGame positionOf: anotherSpaceship) = 5) )
@@ -1808,7 +1808,7 @@ CardTest >> test155WhenCancellationCardRemovesReversePolarityCardReversedEffectI
 	aGame play: aCard from: aSpaceship targeting: (SquareSelection at: 10).
 	aGame playTurn.
 	aGame playTurn.
-	aGame play: anotherCard from: aSpaceship targeting: aCard .
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: (SquareSelection at: 10) ofType: ReversePolarityCard ) .
 	aGame playTurn.
 	
 
@@ -1846,4 +1846,619 @@ CardTest >> test156SquareSelectionNumberCannotBeOutOfBounds [
 	
 
 	self should: [ aGame play: aCard from: aSpaceship targeting: (SquareSelection at: 30). ] raise: Error withMessage: 'Selected square is out of board bounds'.
+]
+
+{ #category : 'tests' }
+CardTest >> test157WhenReversalCardIsPlayedOnSpeedCardSpaceshipThrowDecreasesByOne [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: SpeedCard 
+					                    with: ReversalCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := SpeedCard new.
+	anotherCard := ReversalCard new.
+	
+
+	aGame play: aCard from: aSpaceship targeting: aSpaceship .
+	aGame play: anotherCard from: aSpaceship targeting:( ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ).
+	aGame playTurn.
+	
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 4
+]
+
+{ #category : 'tests' }
+CardTest >> test158WhenReversalCardIsPlayedOnReverseSpeedCardSpaceshipThrowIncreasesByOne [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard yetAnotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: SpeedCard 
+					                    with: ReversalCard with: ReversalCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := SpeedCard new.
+	anotherCard := ReversalCard new.
+	yetAnotherCard := ReversalCard new.
+	
+
+	aGame play: aCard from: aSpaceship targeting: aSpaceship .
+	aGame play: anotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ).
+	aGame play: yetAnotherCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: ReverseSpeedCard ) .
+	aGame playTurn.
+	
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 6
+]
+
+{ #category : 'tests' }
+CardTest >> test159ReversalCardCannotBePlayedOnANonActiveCard [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: SpeedCard 
+					                    with: ReversalCard with: ReversalCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := ReversalCard new.
+	
+
+	
+
+	self should: [aGame play: aCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard )] raise: Error withMessage: 'No active card of that type for that spaceship'
+]
+
+{ #category : 'tests' }
+CardTest >> test160ReverseSpeedCardDoesNotDecreaseThrowForOtherSpaceships [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: SpeedCard 
+					                    with: ReversalCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := SpeedCard new.
+	anotherCard := ReversalCard new.
+	
+
+	aGame play: aCard from: aSpaceship targeting: aSpaceship .
+	aGame play: anotherCard from: aSpaceship targeting:( ActiveCardSelection affecting: aSpaceship ofType: SpeedCard ).
+	aGame playTurn.
+	aGame playTurn.
+	
+
+	self assert: (aGame positionOf: anotherSpaceship ) equals: 5
+]
+
+{ #category : 'tests' }
+CardTest >> test161WhenReversalCardIsPlayedOnAccelerationCardThrowDecreasesByOne [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: AccelerationCard 
+					                    with: ReversalCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := AccelerationCard new.
+	anotherCard := ReversalCard new.
+	
+
+	aGame play: aCard from: aSpaceship targeting: aSpaceship .
+	aGame play: anotherCard from: aSpaceship targeting:( ActiveCardSelection affecting: nil ofType: AccelerationCard ).
+	aGame playTurn.
+	
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 4
+]
+
+{ #category : 'tests' }
+CardTest >> test162WhenReversalCardIsPlayedOnAccelerationCardAllThrowsDecreasesByOne [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: AccelerationCard 
+					                    with: ReversalCard ))
+		                  with: (SpaceshipLog randomCardsfor: anotherSpaceship ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 4 with: 5) .
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := AccelerationCard new.
+	anotherCard := ReversalCard new.
+	
+
+	aGame play: aCard from: aSpaceship targeting: aSpaceship .
+	aGame play: anotherCard from: aSpaceship targeting:( ActiveCardSelection affecting: nil ofType: AccelerationCard ).
+	aGame playTurn.
+	aGame playTurn.
+	
+
+	self assert: (((aGame positionOf: aSpaceship ) = 4) and: ((aGame positionOf: anotherSpaceship )=5))
+]
+
+{ #category : 'tests' }
+CardTest >> test163WhenReversalIsPlayedOnMercenaryCardItFightsAgainstSpaceshipWhoRecruitedIt [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard anotherCard yetAnotherSpaceship spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	yetAnotherSpaceship := Spaceship launch: 'Three'.
+	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: MercenaryCard  with: AccelerationCard )  ) with: (SpaceshipLog for: anotherSpaceship withDeck:(OrderedCollection with: SpeedCard with: ReversalCard) ) with: (SpaceshipLog randomCardsfor: yetAnotherSpaceship  ).
+		aBoard := self
+		          createBoardOf: 8
+		          distance: (ParsecDistance of: 1)
+		          withEffects: (nil)
+		          wormholeBeginsAt: 7
+		          andEndsAt: 8.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 3 with: 2).
+	
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := MercenaryCard new.
+	anotherCard := ReversalCard new.
+	aGame
+		play: aCard
+		from: aSpaceship
+		targeting: yetAnotherSpaceship.
+	aGame play: anotherCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship  ofType: MercenaryCard ).
+	aGame playTurn.
+	aGame playTurn.
+	self assert: ((aGame positionOf: aSpaceship) = 1 and: (aGame positionOf: anotherSpaceship ) = 4)
+]
+
+{ #category : 'tests' }
+CardTest >> test164WhenReverseMercenaryLosesTheBattleItLosesShield [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard anotherCard yetAnotherSpaceship spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	yetAnotherSpaceship := Spaceship launch: 'Three'.
+	spaceshipsData:= OrderedCollection with: (SpaceshipLog for: aSpaceship  withDeck: (OrderedCollection with: MercenaryCard  with: AccelerationCard )  ) with: (SpaceshipLog for: anotherSpaceship withDeck:(OrderedCollection with: SpeedCard with: ReversalCard) ) with: (SpaceshipLog randomCardsfor: yetAnotherSpaceship  ).
+		aBoard := self
+		          createBoardOf: 8
+		          distance: (ParsecDistance of: 1)
+		          withEffects: (nil)
+		          wormholeBeginsAt: 7
+		          andEndsAt: 8.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 3 with: 2 with: 2 with: 5).
+	
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := MercenaryCard new.
+	anotherCard := ReversalCard new.
+	aGame
+		play: aCard
+		from: aSpaceship
+		targeting: yetAnotherSpaceship.
+	aGame play: anotherCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship  ofType: MercenaryCard ).
+	aGame playTurn.
+	aGame playTurn.
+	self assert: ((aGame shieldsOf: anotherSpaceship) = 2 and:	 (aGame shieldsOf: yetAnotherSpaceship) = 2)
+]
+
+{ #category : 'tests' }
+CardTest >> test166WhenReversalCardIsPlayedOnReverseAccelerationCardSpaceshipAllThrowsIncreasesByOne [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard yetAnotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: AccelerationCard 
+					                    with: RedoCard ))
+		                  with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: ReversalCard  with: RedoCard ) ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 4 with: 5).
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := AccelerationCard new.
+	anotherCard := ReversalCard new.
+	yetAnotherCard:= RedoCard new.
+	
+
+	aGame play: aCard from: aSpaceship targeting: nil .
+	aGame	play: anotherCard	from: anotherSpaceship targeting: (ActiveCardSelection affecting: nil ofType: AccelerationCard ).
+	aGame	play: yetAnotherCard 	from: aSpaceship targeting: (ActiveCardSelection affecting: nil ofType: ReverseAccelerationCard ).
+	aGame playTurn.
+	aGame playTurn.
+	
+
+	self assert: (((aGame positionOf: aSpaceship ) = 6) and: ((aGame positionOf: anotherSpaceship ) = 7))
+]
+
+{ #category : 'tests' }
+CardTest >> test167RedoCardCanCopyReversalCard [
+
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard spaceshipsData anotherCard yetAnotherCard |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		                  with: (SpaceshipLog for: aSpaceship withDeck:
+				                   (OrderedCollection
+					                    with: AccelerationCard 
+					                    with: RedoCard ))
+		                  with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: ReversalCard  with: RedoCard ) ).
+
+	aBoard := self
+		          createBoardOf: 20
+		          distance: 5
+		          withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		          wormholeBeginsAt: 18
+		          andEndsAt: 19.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		         playedBy: spaceshipsData
+		         on: aBoard
+		         throwing: (OrderedCollection with: aDie)
+		         wonAfter: 3.
+	aCard := AccelerationCard new.
+	anotherCard := ReversalCard new.
+	yetAnotherCard:= RedoCard new.
+	
+
+	aGame play: aCard from: aSpaceship targeting: nil .
+	aGame	play: anotherCard	from: anotherSpaceship targeting: (ActiveCardSelection affecting: nil ofType: AccelerationCard ).
+	aGame	play: yetAnotherCard 	from: aSpaceship targeting: (ActiveCardSelection affecting: nil ofType: ReverseAccelerationCard ).
+	aGame playTurn.
+	
+
+	self assert: (aGame positionOf: aSpaceship ) equals: 6
+]
+
+{ #category : 'tests' }
+CardTest >> test168WhenReversalCardIsPLayedOnReverseMercenaryCardMercenaryAidsAllyInBattle [
+	| aGame aSpaceship aBoard aDie anotherSpaceship aCard firstReversal secondReversal yetAnotherSpaceship spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	yetAnotherSpaceship := Spaceship launch: 'Three'.
+	spaceshipsData := OrderedCollection
+		with: (SpaceshipLog for: aSpaceship withDeck: (OrderedCollection with: MercenaryCard with: AccelerationCard))
+		with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: ReversalCard with: ReversalCard))
+		with: (SpaceshipLog randomCardsfor: yetAnotherSpaceship).
+	aBoard := self
+		createBoardOf: 8
+		distance: (ParsecDistance of: 1)
+		withEffects: nil
+		wormholeBeginsAt: 7
+		andEndsAt: 8.
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 3 with: 6 with: 3 with: 4).
+
+	aGame := Game
+		playedBy: spaceshipsData
+		on: aBoard
+		throwing: (OrderedCollection with: aDie)
+		wonAfter: 3.
+
+	aCard := MercenaryCard new.
+	firstReversal := ReversalCard new.
+	secondReversal := ReversalCard new.
+
+	aGame play: aCard from: aSpaceship targeting: yetAnotherSpaceship.
+	aGame play: firstReversal from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: MercenaryCard).
+	aGame play: secondReversal from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: ReverseMercenaryCard).
+
+	aGame playTurn.
+	aGame playTurn.
+	
+	self assert: ((aGame positionOf: aSpaceship) = 4 and: (aGame positionOf: anotherSpaceship ) = 1)
+]
+
+{ #category : 'tests' }
+CardTest >> test169RedoCardCanCopyReversalCardTargetingADifferentActiveCard [
+	| aGame aSpaceship aBoard aDie anotherSpaceship anAccelerationCard aSpeedCard aReversalCard aRedoCard spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		with: (SpaceshipLog for: aSpaceship withDeck: (OrderedCollection with: AccelerationCard with: SpeedCard))
+		with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: ReversalCard with: RedoCard)).
+	aBoard := self
+		createBoardOf: 20
+		distance: 5
+		withEffects: (OrderedCollection with: (BlackholeEffect isIn: 10))
+		wormholeBeginsAt: 18
+		andEndsAt: 19.
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		playedBy: spaceshipsData
+		on: aBoard
+		throwing: (OrderedCollection with: aDie)
+		wonAfter: 3.
+
+	anAccelerationCard := AccelerationCard new.
+	aSpeedCard := SpeedCard new.
+	aReversalCard := ReversalCard new.
+	aRedoCard := RedoCard new.
+
+	aGame play: anAccelerationCard from: aSpaceship targeting: nil.
+	aGame play: aSpeedCard from: aSpaceship targeting: aSpaceship.
+	aGame play: aReversalCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: nil ofType: AccelerationCard).
+	aGame play: aRedoCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard).
+
+	aGame playTurn.
+
+	self assert: (aGame positionOf: aSpaceship) equals: 3
+]
+
+{ #category : 'tests' }
+CardTest >> test170WhenReversalCardIsPlayedOnAMercenaryItDoesNotAffectOtherMercenaries [
+
+	| aGame aSpaceship anotherSpaceship yetAnotherSpaceship fourthSpaceship aBoard aDie
+	  firstMercenaryCard secondMercenaryCard aReversalCard spaceshipsData |
+	
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	yetAnotherSpaceship := Spaceship launch: 'Three'.
+	fourthSpaceship := Spaceship launch: 'Four'.
+	spaceshipsData := OrderedCollection
+		with: (SpaceshipLog for: aSpaceship withDeck: (OrderedCollection with: MercenaryCard with: MercenaryCard with: ReversalCard))
+		with: (SpaceshipLog randomCardsfor: anotherSpaceship)
+		with: (SpaceshipLog randomCardsfor: yetAnotherSpaceship)
+		with: (SpaceshipLog randomCardsfor: fourthSpaceship).
+
+	aBoard := self
+		createBoardOf: 10
+		distance: (ParsecDistance of: 1)
+		withEffects: nil
+		wormholeBeginsAt: 9
+		andEndsAt: 10.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 3 with: 1 with: 3 with: 1 with: 4).
+
+	aGame := Game
+		playedBy: spaceshipsData
+		on: aBoard
+		throwing: (OrderedCollection with: aDie)
+		wonAfter: 3.
+
+	firstMercenaryCard := MercenaryCard new.
+	secondMercenaryCard := MercenaryCard new.
+	aReversalCard := ReversalCard new.
+
+	aGame play: firstMercenaryCard from: aSpaceship targeting: yetAnotherSpaceship.
+	aGame play: secondMercenaryCard from: aSpaceship targeting: fourthSpaceship .
+	aGame play: aReversalCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: MercenaryCard mercenary: yetAnotherSpaceship ).
+
+	aGame playTurn.
+	aGame playTurn.
+
+	self assert: (aGame shieldsOf: fourthSpaceship ) equals: 3.
+	self assert: (aGame shieldsOf: yetAnotherSpaceship) equals: 2.
+	self assert: (aGame positionOf: anotherSpaceship) equals: 1.
+]
+
+{ #category : 'tests' }
+CardTest >> test171CancellationCardCanRemoveAReversedSpeedCard [
+
+	| aGame aSpaceship anotherSpaceship aBoard aDie aSpeedCard aReversalCard aCancellationCard spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		with: (SpaceshipLog for: aSpaceship withDeck: (OrderedCollection with: SpeedCard with: CancellationCard))
+		with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: ReversalCard)).
+
+	aBoard := self
+		createBoardOf: 16
+		distance: (ParsecDistance of: 1)
+		withEffects: nil
+		wormholeBeginsAt: 14
+		andEndsAt: 15.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		playedBy: spaceshipsData
+		on: aBoard
+		throwing: (OrderedCollection with: aDie)
+		wonAfter: 3.
+
+	aSpeedCard := SpeedCard new.
+	aReversalCard := ReversalCard new.
+	aCancellationCard := CancellationCard new.
+
+	aGame play: aSpeedCard from: aSpaceship targeting: aSpaceship.
+	aGame play: aReversalCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard).
+	aGame play: aCancellationCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: ReverseSpeedCard).
+	aGame playTurn.
+
+	self assert: (aGame positionOf: aSpaceship) equals: 5.
+]
+
+{ #category : 'tests' }
+CardTest >> test172WhenASecondConsecutiveRedoCardIsPlayedItStillCopiesReversalCard [
+
+	| aGame aSpaceship anotherSpaceship aBoard aDie aSpeedCard anAccelerationCard
+	  aReversalCard firstRedoCard secondRedoCard spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		with: (SpaceshipLog for: aSpaceship withDeck: (OrderedCollection with: SpeedCard with: AccelerationCard))
+		with: (SpaceshipLog for: anotherSpaceship withDeck: (OrderedCollection with: ReversalCard with: RedoCard with: RedoCard)).
+
+	aBoard := self
+		createBoardOf: 16
+		distance: (ParsecDistance of: 1)
+		withEffects: nil
+		wormholeBeginsAt: 14
+		andEndsAt: 15.
+
+	aDie := LoadedDie of: 4.
+	aGame := Game
+		playedBy: spaceshipsData
+		on: aBoard
+		throwing: (OrderedCollection with: aDie)
+		wonAfter: 3.
+
+	aSpeedCard := SpeedCard new.
+	anAccelerationCard := AccelerationCard new.
+	aReversalCard := ReversalCard new.
+	firstRedoCard := RedoCard new.
+	secondRedoCard := RedoCard new.
+
+	aGame play: aSpeedCard from: aSpaceship targeting: aSpaceship.
+	aGame play: anAccelerationCard from: aSpaceship targeting: nil.
+	aGame play: aReversalCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: SpeedCard).
+	aGame play: firstRedoCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: nil ofType: AccelerationCard).
+	aGame play: secondRedoCard from: anotherSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: ReverseSpeedCard).
+
+	aGame playTurn.
+
+	self assert: (aGame positionOf: aSpaceship) equals: 5.
+]
+
+{ #category : 'tests' }
+CardTest >> test173ReverseMercenaryBattlesItsAllyWhenTheyShareASquare [
+
+	| aGame aSpaceship anotherSpaceship aBoard aDie aMercenaryCard aReversalCard spaceshipsData |
+	aSpaceship := Spaceship launch: 'One'.
+	anotherSpaceship := Spaceship launch: 'Two'.
+	spaceshipsData := OrderedCollection
+		with: (SpaceshipLog for: aSpaceship withDeck: (OrderedCollection with: MercenaryCard with: ReversalCard))
+		with: (SpaceshipLog randomCardsfor: anotherSpaceship).
+
+	aBoard := self
+		createBoardOf: 8
+		distance: (ParsecDistance of: 1)
+		withEffects: nil
+		wormholeBeginsAt: 7
+		andEndsAt: 8.
+
+	aDie := LoadedDie arrayOf: (OrderedCollection with: 3 with: 3 with: 2 with: 3).
+
+	aGame := Game
+		playedBy: spaceshipsData
+		on: aBoard
+		throwing: (OrderedCollection with: aDie)
+		wonAfter: 3.
+
+	aMercenaryCard := MercenaryCard new.
+	aReversalCard := ReversalCard new.
+
+	aGame play: aMercenaryCard from: aSpaceship targeting: anotherSpaceship.
+	aGame play: aReversalCard from: aSpaceship targeting: (ActiveCardSelection affecting: aSpaceship ofType: MercenaryCard).
+
+	aGame playTurn.
+	aGame playTurn. 
+
+	self assert: (aGame positionOf: aSpaceship) equals: 4.
+	self assert: (aGame positionOf: anotherSpaceship) equals: 1.
+	self assert: (aGame shieldsOf: anotherSpaceship) equals: 2.
 ]

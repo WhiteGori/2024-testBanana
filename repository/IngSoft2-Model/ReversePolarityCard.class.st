@@ -40,13 +40,19 @@ ReversePolarityCard >> playOn: aSpaceship [
 ]
 
 { #category : 'action' }
-ReversePolarityCard >> reduceShieldsOfAllyOf: aSpaceship in: aGame [
+ReversePolarityCard >> reduceShieldsOfAllyOf: aSpaceship against: anOpponent in: aGame [
 ]
 
 { #category : 'action' }
-ReversePolarityCard >> reinforce: aSpaceship in: aGame [
+ReversePolarityCard >> reinforce: aSpaceship against: anOpponent in: aGame [
 
 ^0.
+]
+
+{ #category : 'dispatching' }
+ReversePolarityCard >> targets [
+
+	^targetSquare
 ]
 
 { #category : 'validation' }
